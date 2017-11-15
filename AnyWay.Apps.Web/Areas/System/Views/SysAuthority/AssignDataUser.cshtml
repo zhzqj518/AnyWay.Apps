@@ -1,0 +1,226 @@
+﻿<div class="mini-fit">
+    <input id="groupId" class="mini-hidden" value="@ViewBag.groupId" />
+    <div style="width:50%;height:100%;float:left">
+        <div style="width: 100%;">
+            <div id="toolbar" class="mini-toolbar" style="border-bottom: 0; padding: 0px;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 100%;">
+                            <span>未分配用户</span>
+                            <span class="separator"></span>
+                            <input id="username_unselect" class="mini-textbox" emptytext="请输入用户名称" style="width: 150px;" onenter="searchunselect()" />
+                            <a class="mini-button" iconcls="icon-search" plain="true" onclick="searchUnSelect()" tooltip="搜索"></a>
+                            <a class="mini-button" iconcls="fa-user-o" onclick="assignUser()" plain="true">分配</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="mini-fit">
+            <div id="dgUnSelect" class="mini-datagrid" style="width: 100%; height: 100%;" url="../../System/SysAuthority/GetUnAssignSysUserList?groupId=@ViewBag.groupId"
+                 allowresize="false" pagesize="20" sizelist="[20,50,100,500]" allowcelledit="true" allowcellselect="true"
+                 multiselect="true" allowcellvalid="true" frozenstartcolumn="0" frozenendcolumn="5">
+                <div property="columns">
+                    <div type="checkcolumn"></div>
+                    <div field="UserName" vtype="required;maxLength:150" width="80" headeralign="center" allowsort="true">
+                        用户名
+                    </div>
+                    <div field="UserLoginName" vtype="required;maxLength:60" width="80" headeralign="center">
+                        登录名
+                    </div>
+                    <div type="treeselectcolumn" field="UserOrgID" vtype="required;maxLength:60" width="150" headeralign="center" readonly="true">
+                        组织机构
+                        <input property="editor" class="mini-treeselect" resultastree="false" textfield="OrgName" valuefield="OrgId" parentfield="OrgParentId"
+                               showtreeicon="true" url="../../System/SysStructure/GetSysOrgList" style="width: 100%;"
+                               allowinput="false" expandonload="true" popupwidth="200" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width:50%;height:100%;float:left">
+        <div style="width: 100%;">
+            <div id="toolbar" class="mini-toolbar" style="border-bottom: 0; padding: 0px;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 100%;">
+                            <span>已分配用户</span>
+                            <span class="separator"></span>
+                            <input id="username_select" class="mini-textbox" emptytext="请输入用户名称" style="width: 150px;" onenter="searchSelect()" />
+                            <a class="mini-button" iconcls="icon-search" plain="true" onclick="searchSelect()" tooltip="搜索"></a>
+                            <a class="mini-button" iconcls="fa-user-o" onclick="unAssignUser()" plain="true">取消</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="mini-fit">
+            <div id="dgSelect" class="mini-datagrid" style="width: 100%; height: 100%;" url="../../System/SysAuthority/GetAssignSysUserList?groupId=@ViewBag.groupId"
+                 allowresize="false" pagesize="20" sizelist="[20,50,100,500]" allowcelledit="true" allowcellselect="true"
+                 multiselect="true" allowcellvalid="true" frozenstartcolumn="0" frozenendcolumn="5">
+                <div property="columns">
+                    <div type="checkcolumn"></div>
+                    <div field="UserName" vtype="required;maxLength:150" width="80" headeralign="center" allowsort="true">
+                        用户名
+                    </div>
+                    <div field="UserLoginName" vtype="required;maxLength:60" width="80" headeralign="center">
+                        登录名
+                    </div>
+                    <div type="treeselectcolumn" field="UserOrgID" vtype="required;maxLength:60" width="150" headeralign="center" readonly="true">
+                        组织机构
+                        <input property="editor" class="mini-treeselect" resultastree="false" textfield="OrgName" valuefield="OrgId" parentfield="OrgParentId"
+                               showtreeicon="true" url="../../System/SysStructure/GetSysOrgList" style="width: 100%;"
+                               allowinput="false" expandonload="true" popupwidth="200" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    mini.parse();
+
+    var dgUnSelect = mini.get("dgUnSelect");
+    dgUnSelect.load();
+
+    var dgSelect = mini.get("dgSelect");
+    dgSelect.load();
+
+    function searchUnSelect() {
+        dgUnSelect.load({ userName: mini.get("username_unselect").getValue() });
+    }
+
+    function searchSelect() {
+        dgSelect.load({ userName: mini.get("username_select").getValue() });
+    }
+
+    function assignUser() {
+        var rows = dgUnSelect.getSelecteds();
+        if (!rows || rows.length == 0) {
+            mini.showTips({
+                content: "<b>警告</b> <br/>请至少选择记一条记录！",
+                state: "warning",
+                x: "center",
+                y: "center",
+                timeout: 2000
+            });
+            return;
+        }
+        var groupId = mini.get("groupId").getValue();
+        var data = new Array();
+        for (var i = 0; i < rows.length; i++) {
+            data.push({ GroupId: groupId, UserId: rows[i].UserId });
+        }
+
+        mini.mask({
+            el: document.body,
+            cls: 'mini-mask-loading',
+            html: "正在保存"
+        });
+
+        $.ajax({
+            url: "../../SysAuthority/SaveAssignGroupUser",
+            type: "post",
+            data: { addData: mini.encode(data) },
+            success: function (text, flag, res) {
+                mini.unmask();
+                var msg = mini.decode(arguments[2].responseText);
+                if (msg.isSuccess) {
+                    mini.showTips({
+                        content: "<b>成功</b> <br/>保存成功！",
+                        state: "success",
+                        x: "center",
+                        y: "center",
+                        timeout: 2000
+                    });
+                    dgUnSelect.reload();
+                    dgSelect.reload();
+                } else {
+                    mini.showMessageBox({
+                        title: "保存失败",
+                        iconCls: "mini-messagebox-warning",
+                        buttons: ["ok"],
+                        message: "失败原因：<br/>" + msg.DisplayErrorMsg + "其余保存成功！",
+                        callback: function (action) { }
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                mini.unmask();
+                mini.showTips({
+                    content: "<b>失败</b> <br/>保存失败！",
+                    state: "danger",
+                    x: "center",
+                    y: "center",
+                    timeout: 2000
+                });
+            }
+        });
+    }
+
+    function unAssignUser() {
+        var rows = dgSelect.getSelecteds();
+        if (!rows || rows.length == 0) {
+            mini.showTips({
+                content: "<b>警告</b> <br/>请至少选择记一条记录！",
+                state: "warning",
+                x: "center",
+                y: "center",
+                timeout: 2000
+            });
+            return;
+        }
+        var groupId = mini.get("groupId").getValue();
+        var data = new Array();
+        for (var i = 0; i < rows.length; i++) {
+            data.push({ GroupId: groupId, UserId: rows[i].UserId });
+        }
+
+        mini.mask({
+            el: document.body,
+            cls: 'mini-mask-loading',
+            html: "正在保存"
+        });
+
+        $.ajax({
+            url: "../../SysAuthority/SaveUnAssignGroupUser",
+            type: "post",
+            data: { removeData: mini.encode(data) },
+            success: function (text, flag, res) {
+                mini.unmask();
+                var msg = mini.decode(arguments[2].responseText);
+                if (msg.isSuccess) {
+                    mini.showTips({
+                        content: "<b>成功</b> <br/>保存成功！",
+                        state: "success",
+                        x: "center",
+                        y: "center",
+                        timeout: 2000
+                    });
+                    dgUnSelect.reload();
+                    dgSelect.reload();
+                } else {
+                    mini.showMessageBox({
+                        title: "保存失败",
+                        iconCls: "mini-messagebox-warning",
+                        buttons: ["ok"],
+                        message: "失败原因：<br/>" + msg.DisplayErrorMsg + "其余保存成功！",
+                        callback: function (action) { }
+                    });
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                mini.unmask();
+                mini.showTips({
+                    content: "<b>失败</b> <br/>保存失败！",
+                    state: "danger",
+                    x: "center",
+                    y: "center",
+                    timeout: 2000
+                });
+            }
+        });
+    }
+
+</script>

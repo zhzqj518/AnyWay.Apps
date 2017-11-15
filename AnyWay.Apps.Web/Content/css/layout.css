@@ -1,0 +1,24 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.mini-window .mini-panel-header {
+    background: #0993d3;
+}
+
+.mini-panel .mini-panel-title {
+    color: #fff;
+}
+
+.mini-mask-loading {
+    border: 2px solid #ffa405;
+}
+
+.mini-button-icon {
+    margin-top: -11px;
+}

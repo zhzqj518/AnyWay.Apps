@@ -1,0 +1,216 @@
+﻿<div style="width: 100%;">
+    <div id="toolbar" class="mini-toolbar" style="border-bottom: 0; padding: 0px;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 100%;">
+                    <a class="mini-button" iconcls="icon-add" onclick="addUser()" plain="true">增加</a>
+                    <span class="separator"></span>
+                    <a class="mini-button" iconcls="icon-remove" onclick="removeUser()" plain="true">删除</a>
+                    <span class="separator"></span>
+                    <a id="btnSave" class="mini-button" iconcls="icon-save" onclick="saveUsers();" plain="true">保存</a>
+                </td>
+                <td style="white-space: nowrap;">
+                    <input id="username" class="mini-textbox" emptytext="请输入查询内容" style="width: 150px;" onenter="onKeyEnter" />
+                    <a class="mini-button" iconcls="icon-search" plain="true" onclick="search()" tooltip="搜索"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="mini-fit">
+    <div id="datagrid" class="mini-datagrid" style="width: 100%; height: 100%;" url="../../System/SysStructure/GetSysUserList"
+         allowresize="false" pagesize="20" sizelist="[20,50,100,500]" allowcelledit="true" allowcellselect="true"
+         multiselect="true" allowcellvalid="true" frozenstartcolumn="0" frozenendcolumn="5">
+        <div property="columns">
+            <div type="checkcolumn"></div>
+            <div field="UserName" vtype="required;maxLength:150" width="80" headeralign="center" allowsort="true">
+                用户名
+                <input property="editor" class="mini-textbox" style="width: 100%;" />
+            </div>
+            <div field="UserLoginName" vtype="required;maxLength:60" width="80" headeralign="center">
+                登录名
+                <input property="editor" class="mini-textbox" style="width: 100%;" />
+            </div>
+            <div field="UserSSOName" vtype="required;maxLength:60" width="80" headeralign="center">
+                集成用户名
+                <input property="editor" class="mini-textbox" style="width: 100%;" />
+            </div>
+            <div type="treeselectcolumn" field="UserOrgID" vtype="required;" width="150" headeralign="center">
+                组织机构
+                <input property="editor" class="mini-treeselect" resultastree="false" textfield="OrgName" valuefield="OrgId" parentfield="OrgParentId"
+                       showtreeicon="true" url="../../System/SysStructure/GetSysOrgList" style="width: 100%;" ondrawnode="onOrgDrawNode"
+                       allowinput="false" expandonload="true" popupwidth="200" />
+            </div>
+            <div type="comboboxcolumn" field="UserSex" vtype="required;maxLength:60" width="50" headeralign="center">
+                性别
+                <input property="editor" class="mini-combobox" style="width: 100%;" data="userSex" idfield="id" textfield="text" />
+            </div>
+            <div field="UserMail" vtype="required;" width="180" headeralign="center">
+                邮箱
+                <input property="editor" class="mini-textarea" style="width: 100%;" />
+            </div>
+            <div field="UserMobile" vtype="required;" width="100" headeralign="center">
+                手机
+                <input property="editor" class="mini-textarea" style="width: 100%;" />
+            </div>
+            <div field="UserTel" vtype="required;" width="100" headeralign="center">
+                座机
+                <input property="editor" class="mini-textarea" style="width: 100%;" />
+            </div>
+            <div type="comboboxcolumn" field="UserType" vtype="required;" width="90" headeralign="center">
+                用户类型
+                <input property="editor" class="mini-combobox" style="width: 100%;" data="userType" idfield="id" textfield="text" />
+            </div>
+            <div type="checkboxcolumn" field="UserIsEmailVerificate" width="70" headeralign="center" truevalue="1" falsevalue="0">
+                邮箱验证
+            </div>
+            <div type="checkboxcolumn" field="UserIsSMSVerificate" width="70" headeralign="center" truevalue="1" falsevalue="0">
+                短信验证
+            </div>
+            <div type="checkboxcolumn" field="UserIsValid" vtype="required;" width="50" headeralign="center" truevalue="1" falsevalue="0">
+                有效
+            </div>
+            <div field="UserRemark" width="190" headeralign="center" vtype="maxLength:150">
+                备注
+                <input property="editor" class="mini-textarea" style="width: 100%;" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var userSex = [{ id: "male", text: "男" }, { id: "female", text: "女" }],
+        userType = [{ id: "common", text: "普通用户" }, { id: "dev", text: "开发用户" }];
+    mini.parse();
+
+    var datagrid = mini.get("datagrid");
+    datagrid.load();
+
+    function onOrgDrawNode(e) {
+        e.iconCls = e.node.OrgIconPath;
+    }
+
+    function addUser() {
+        var newUser = { name: "New Row", UserPwd: $.md5("123456"), UserSex: "male", UserType: "common", UserIsEmailVerificate: 0, UserIsSMSVerificate: 0, UserIsValid: 1 };
+        datagrid.addRow(newUser);
+    }
+
+    function removeUser() {
+        var rows = datagrid.getSelecteds();
+
+        if (!rows || rows.length == 0) {
+            mini.showTips({
+                content: "<b>警告</b> <br/>请至少选择记一条记录！",
+                state: "warning",
+                x: "center",
+                y: "center",
+                timeout: 2000
+            });
+            return;
+        }
+
+        var isValid = true;
+
+        for (var i = 0; i < rows.length; i++) {
+            if (rows[i]._state == undefined || rows[i]._state != "added") {
+                isValid = false;
+                break;
+            }
+        }
+
+        if (!isValid) {
+            mini.showTips({
+                content: "<b>警告</b> <br/>只有新增记录可以被删除！",
+                state: "warning",
+                x: "center",
+                y: "center",
+                timeout: 2000
+            });
+            return;
+        }
+
+        datagrid.removeRows(rows);
+    }
+
+    function saveUsers() {
+        datagrid.validate();
+
+        if (!datagrid.isValid()) {
+            var error = datagrid.getCellErrors()[0];
+            datagrid.beginEditCell(error.record, error.column);
+            mini.showTips({
+                content: "<b>警告</b> <br/>请输入所有要求字段！",
+                state: "warning",
+                x: "center",
+                y: "center",
+                timeout: 2000
+            });
+            return;
+        }
+
+        var addData = datagrid.getChanges("added");
+        var modifyData = datagrid.getChanges("modified");
+        if (addData.length == 0 && modifyData.length == 0) {
+            mini.showTips({
+                content: "<b>警告</b> <br/>未检测到任何修改！",
+                state: "warning",
+                x: "center",
+                y: "center",
+                timeout: 2000
+            });
+            return;
+        }
+
+        datagrid.loading("保存中，请稍后......");
+
+        mini.get("btnSave").set({ enabled: false });
+
+        $.ajax({
+            url: "../../System/SysStructure/SaveUserChanges",
+            type: "post",
+            data: { addData: mini.encode(addData), modifyData: mini.encode(modifyData) },
+            success: function (text, flag, res) {
+                datagrid.unmask();
+                var msg = mini.decode(arguments[2].responseText);
+                if (msg.isSuccess) {
+                    mini.showTips({
+                        content: "<b>成功</b> <br/>保存成功！",
+                        state: "success",
+                        x: "center",
+                        y: "center",
+                        timeout: 2000
+                    });
+                    datagrid.reload();
+                    //treegrid.reload(function () { search(); });
+                } else {
+                    mini.showMessageBox({
+                        title: "保存失败",
+                        iconCls: "mini-messagebox-warning",
+                        buttons: ["ok"],
+                        message: "失败原因：<br/>" + msg.DisplayErrorMsg + "其余保存成功！",
+                        callback: function (action) { }
+                    });
+                }
+                mini.get("btnSave").set({ enabled: true });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                datagrid.unmask();
+                mini.showTips({
+                    content: "<b>失败</b> <br/>保存失败！",
+                    state: "danger",
+                    x: "center",
+                    y: "center",
+                    timeout: 2000
+                });
+                mini.get("btnSave").set({ enabled: true });
+            }
+        });
+    }
+
+    function onKeyEnter() {
+        search();
+    }
+
+    function search() {
+        datagrid.load({ userName: mini.get("username").getValue() });
+    }
+</script>

@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SysMenuSpcl"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="SysMenuSpcl" type="Models.System.SysMenuSpcl" />
+    <typeAlias alias="SysMenuSpclQuery" type="Models.System.ViewModel.SysMenuSpclQuery"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="FullResultMap" class="SysMenuSpcl">
+      <result property="MenuId" column="MENUID" dbType="VarChar"/>
+      <result property="MenuName" column="MENUNAME" dbType="VarChar"/>
+      <result property="MenuLink" column="MENULINK" dbType="VarChar"/>
+      <result property="MenuIcon" column="MENUICON" dbType="VarChar"/>
+      <result property="MenuIconPath" column="MENUICONPATH" dbType="VarChar"/>
+      <result property="MenuIsLeaf" column="MENUISLEAF" dbType="Decimal"/>
+      <result property="MenuIsValid" column="MENUISVALID" dbType="Decimal"/>
+      <result property="MenuNo" column="MENUNO" dbType="Decimal"/>
+      <result property="MenuRemark" column="MENUREMARK" dbType="VarChar"/>
+      <result property="MenuParentId" column="MENUPARENTID" dbType="VarChar"/>
+      <result property="MenuOperation" column="MENUOPERATION" dbType="VarChar"/>
+      <result property="MenuCreateBy" column="MENUCREATEBY" dbType="VarChar"/>
+      <result property="MenuCreateTime" column="MENUCREATETIME" dbType="DateTime"/>
+      <result property="MenuUpdateBy" column="MENUUPDATEBY" dbType="VarChar"/>
+      <result property="MenuUpdateTime" column="MENUUPDATETIME" dbType="DateTime"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="GetList" resultMap="FullResultMap" parameterClass="SysMenuSpclQuery">
+      SELECT *
+      FROM TB_SYS_MENU_SPCL
+      WHERE 1 = 1
+      <dynamic>
+        <isNotNull prepend="And" property="OperateType">
+          <iterate property="OperateType"   open="(" close=")" conjunction="OR">
+            MenuOperation = #OperateType[]#
+          </iterate>
+        </isNotNull>
+        <isNotEmpty property="SortBy"  prepend="Order By">
+          $SortBy$ $SortOrder$
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="GetById" resultMap="FullResultMap" parameterClass="SysMenuSpcl">
+      SELECT *
+      FROM TB_SYS_MENU_SPCL
+      WHERE (MENUID = #MenuId#)
+    </select>
+
+    <insert id="Insert" parameterClass="SysMenuSpcl">
+      INSERT INTO TB_SYS_MENU_SPCL (
+      MENUID
+      , MENUNAME
+      , MENULINK
+      , MENUICON
+      , MENUICONPATH
+      , MENUISLEAF
+      , MENUISVALID
+      , MENUNO
+      , MENUREMARK
+      , MENUPARENTID
+      , MENUOPERATION
+      , MENUCREATEBY
+      , MENUCREATETIME
+      , MENUUPDATEBY
+      , MENUUPDATETIME
+      ) VALUES (
+      #MenuId#
+      , #MenuName#
+      , #MenuLink#
+      , #MenuIcon#
+      , #MenuIconPath#
+      , #MenuIsLeaf#
+      , #MenuIsValid#
+      , #MenuNo#
+      , #MenuRemark#
+      , #MenuParentId#
+      , #MenuOperation#
+      , #MenuCreateBy#
+      , #MenuCreateTime#
+      , #MenuUpdateBy#
+      , #MenuUpdateTime#
+      )
+    </insert>
+
+    <update id="Update" parameterClass="SysMenuSpcl">
+      UPDATE TB_SYS_MENU_SPCL SET
+      MENUNAME = #MenuName#
+      , MENULINK = #MenuLink#
+      , MENUICON = #MenuIcon#
+      , MENUICONPATH = #MenuIconPath#
+      , MENUISLEAF = #MenuIsLeaf#
+      , MENUISVALID = #MenuIsValid#
+      , MENUNO = #MenuNo#
+      , MENUREMARK = #MenuRemark#
+      , MENUPARENTID = #MenuParentId#
+      , MENUOPERATION = #MenuOperation#
+      , MENUCREATEBY = #MenuCreateBy#
+      , MENUCREATETIME = #MenuCreateTime#
+      , MENUUPDATEBY = #MenuUpdateBy#
+      , MENUUPDATETIME = #MenuUpdateTime#
+      WHERE
+      (MENUID = #MenuId#)
+    </update>
+
+    <delete id="Delete" parameterClass="SysMenuSpcl">
+      DELETE FROM TB_SYS_MENU_SPCL
+      WHERE
+      (MENUID = #MenuId#)
+    </delete>
+  </statements>
+</sqlMap>

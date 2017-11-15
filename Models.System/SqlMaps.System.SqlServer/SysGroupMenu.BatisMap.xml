@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SysGroupMenu"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="SysGroupMenu" type="Models.System.SysGroupMenu" />
+    <typeAlias alias="SysGroupMenuCheck" type="Models.System.SysGroupMenuCheck"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="FullResultMap" class="SysGroupMenu">
+      <result property="GroupId" column="GROUPID" dbType="VarChar"/>
+      <result property="MenuId" column="MENUID" dbType="VarChar"/>
+    </resultMap>
+    <resultMap id="GroupMenuCheckMap" class="SysGroupMenuCheck">
+      <result property="MenuId" column="MENUID" dbType="VarChar"/>
+      <result property="MenuName" column="MENUNAME" dbType="VarChar"/>
+      <result property="MenuLink" column="MENULINK" dbType="VarChar"/>
+      <result property="MenuIconPath" column="MENUICONPATH" dbType="VarChar"/>
+      <result property="MenuRemark" column="MENUREMARK" dbType="VarChar"/>
+      <result property="MenuParentId" column="MENUPARENTID" dbType="VarChar"/>
+      <result property="MenuIsHidden" column="MENUISHIDDEN" dbType="Decimal"/>
+      <result property="GroupId" column="GROUPID" dbType="VarChar"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="GetMenuListByGroupId" parameterClass="System.String" resultMap="GroupMenuCheckMap">
+      SELECT TSM.MENUID, TSM.MENUNAME, TSM.MENULINK, TSM.MENUICONPATH, TSM.MENUREMARK,
+      TSM.MENUPARENTID, TSM.MENUISHIDDEN, TSGM.GROUPID
+      FROM TB_SYS_MENU TSM
+      LEFT JOIN (SELECT *
+      FROM TB_SYS_GROUP_MENU
+      WHERE GROUPID = #value#
+      ) TSGM ON TSM.MENUID = TSGM.MENUID
+      WHERE TSM.MENUOPERATION IN ('01','02') AND TSM.MENUISVALID=1 ORDER BY TSM.MENUNO ASC
+    </select>
+
+    <insert id="Insert" parameterClass="SysGroupMenu">
+      INSERT INTO TB_SYS_GROUP_MENU (
+      GROUPID
+      , MENUID
+      ) VALUES (
+      #GroupId#
+      , #MenuId#
+      )
+    </insert>
+
+    <delete id="DeleteByGroupID" parameterClass="SysGroupMenu">
+      DELETE FROM TB_SYS_GROUP_MENU
+      WHERE
+      (GROUPID = #GroupId#)
+    </delete>
+  </statements>
+</sqlMap>

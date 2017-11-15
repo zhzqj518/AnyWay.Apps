@@ -1,0 +1,10 @@
+ECharts 之前提供下载的矢量地图数据来自第三方，由于部分数据不符合国家《测绘法》规定，目前暂时停止下载服务。
+建议大家使用以百度地图为底图的形式，参考实例：http://echarts.baidu.com/demo.html#map-polygon
+1.引用echarts3，下载地址：http://echarts.baidu.com/download.html
+<script src="~/Scripts/echarts/echarts.js"></script>
+2.引用bmap.min.js，下载地址：https://github.com/ecomfe/echarts/tree/master/extension/bmap，该地址有引用步骤
+<script src="~/Scripts/echarts/bmap.min.js"></script>
+3.地图配置项，可以写在页面里面
+<script src="~/Scripts/map.js"></script>
+4.引用百度地图api，ak为百度地图开发平台ak，地址：http://lbsyun.baidu.com/apiconsole/key
+<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=010f633632e47d3ada09ea8f4c2fba4a"></script>

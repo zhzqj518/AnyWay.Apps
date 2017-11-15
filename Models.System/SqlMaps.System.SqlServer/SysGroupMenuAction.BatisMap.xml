@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SysGroupMenuAction"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="SysGroupMenuAction" type="Models.System.SysGroupMenuAction" />
+    <typeAlias alias="SysGroupMenuActionCheck" type="Models.System.SysGroupMenuActionCheck"/>
+    <typeAlias alias="SysGroupMenuActionQuery" type="Models.System.ViewModel.SysGroupMenuActionQuery"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="FullResultMap" class="SysGroupMenuAction">
+      <result property="GroupId" column="GROUPID" dbType="VarChar"/>
+      <result property="MenuId" column="MENUID" dbType="VarChar"/>
+      <result property="ActionId" column="ACTIONID" dbType="VarChar"/>
+    </resultMap>
+    <resultMap id="GroupMenuActionCheckMap" class="SysGroupMenuActionCheck">
+      <result property="GroupId" column="GROUPID" dbType="VarChar"/>
+      <result property="MenuId" column="MENUID" dbType="VarChar"/>
+      <result property="ActionId" column="ACTIONID" dbType="VarChar"/>
+      <result property="ActionName" column="ACTIONNAME" dbType="VarChar"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="GetCheckList" parameterClass="SysGroupMenuActionQuery" resultMap="GroupMenuActionCheckMap">
+      SELECT TSMA.ACTIONID, TSMA.MENUID, TSMA.ACTIONNAME, TSGMA.GROUPID
+      FROM TB_SYS_MENU_ACTION TSMA
+      LEFT JOIN (SELECT MENUID, ACTIONID, GROUPID FROM TB_SYS_GROUP_MENU_ACTION
+      WHERE GROUPID = #GroupId#
+      ) TSGMA ON TSMA.MENUID = TSGMA.MENUID
+      AND TSMA.ACTIONID = TSGMA.ACTIONID
+    </select>
+    <delete id="DeleteByGroupMenu" parameterClass="SysGroupMenuActionQuery">
+      DELETE FROM TB_SYS_GROUP_MENU_ACTION WHERE GROUPID = #GroupId# AND MENUID = #MenuId#
+    </delete>
+
+    <insert id="Insert" parameterClass="SysGroupMenuAction">
+      INSERT INTO TB_SYS_GROUP_MENU_ACTION(
+      GROUPID
+      , MENUID
+      , ACTIONID
+      ) VALUES (
+      #GroupId#
+      , #MenuId#
+      , #ActionId#
+      )
+    </insert>
+  </statements>
+</sqlMap>

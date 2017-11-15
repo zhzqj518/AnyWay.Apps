@@ -1,0 +1,224 @@
+﻿<div style="width: 100%;">
+    <div id="toolbar" class="mini-toolbar" style="border-bottom: 0; padding: 0px;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 100%;">
+                    <a id="btnSave" class="mini-button" iconcls="icon-save" onclick="saveData();" plain="true">保存</a>
+                    <span class="separator"></span>
+                    <a class="mini-button" iconcls="icon-edit-top" onclick="createRootOrg();" plain="true">创建根组织机构</a>
+                    <span class="separator"></span>
+                    <a class="mini-button" iconcls="icon-collapse" onclick="collapseAll();" plain="true">全部折叠</a>
+                    <span class="separator"></span>
+                    <a id="tips" class="mini-button" iconcls="icon-tip" data-tooltip="" plain="true">提示</a>
+                </td>
+                <td style="white-space: nowrap;">
+                    <input id="orgname" class="mini-textbox" emptytext="请输入组织机构名称" style="width: 150px;" onenter="onKeyEnter" />
+                    <a class="mini-button" iconcls="icon-search" plain="true" onclick="search()" tooltip="搜索"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="mini-fit">
+    <div id="treegrid" class="mini-treegrid" style="width:100%;height:100%;" showtreeicon="true" allowdrag="true" allowdrop="true"
+         url="../../System/SysStructure/GetSysOrgList" treecolumn="OrgName" idfield="OrgId" parentfield="OrgParentId" iconfield="OrgIconPath"
+         allowresize="false" expandonload="true" allowcelledit="true" allowcellvalid="true" allowcellselect="true" contextmenu="#treeMenu"
+         resultastree="false" showtreelines="true">
+        <div property="columns">
+            <div type="indexcolumn"></div>
+            <div name="OrgName" field="OrgName" headeralign="center" width="190" vtype="required;maxLength:150">
+                机构名称
+                <input property="editor" class="mini-textbox" style="width: 100%;" />
+            </div>
+            <div name="OrgCode" field="OrgCode" headeralign="center" width="90" vtype="maxLength:150">
+                机构编码
+                <input property="editor" class="mini-textbox" style="width: 100%;" />
+            </div>
+            <div type="comboboxcolumn" name="OrgIcon" field="OrgIcon" headeralign="center" width="90">
+                机构图标
+                <input property="editor" class="mini-combobox" style="width: 100%;" data="iconType" idfield="id" textfield="text" />
+            </div>
+            <div name="OrgIconPath" field="OrgIconPath" headeralign="center" width="120">
+                图标class
+                <input property="editor" class="mini-textbox" style="width: 100%;" />
+            </div>
+            <div type="comboboxcolumn" name="OrgType" field="OrgType" headeralign="center" width="80" vtype="required">
+                机构类型
+                <input property="editor" class="mini-combobox" style="width: 100%;" data="orgType" idfield="id" textfield="text" />
+            </div>
+            <div type="checkboxcolumn" field="OrgIsValid" headeralign="center" truevalue="1" falsevalue="0" width="40">有效</div>
+            <div name="OrgNo" field="OrgNo" headeralign="center" width="50">
+                排序
+                <input property="editor" class="mini-spinner" minivalue="1" style="width: 100%;" />
+            </div>
+            <div name="OrgRemark" field="OrgRemark" headeralign="center" width="200" vtype="maxLength:150">
+                机构备注
+                <input property="editor" class="mini-textarea" style="width: 100%;" />
+            </div>
+        </div>
+    </div>
+</div>
+<ul id="treeMenu" class="mini-contextmenu" onbeforeopen="onBeforeOpen">
+    <li>
+        <span iconcls="icon-add">新增节点</span>
+        <ul>
+            <li iconcls="icon-new" onclick="addNodeBefore">插入节点前</li>
+            <li iconcls="icon-addnew" onclick="addNodeAfter">插入节点后</li>
+            <li iconcls="icon-rightarrow" onclick="addNodeLeaf">插入子节点</li>
+        </ul>
+    </li>
+    <li iconcls="icon-collapse" onclick="collapseNode">折叠节点</li>
+</ul>
+<script type="text/javascript">
+    //iconType = [{ id: "fontawesome", text: "Font Awesome" }, { id: "miniui", text: "MiniUI" }, { id: "iconfont", text: "iconfont" }]
+    var iconType = [{ id: "fontawesome", text: "Font Awesome" }, { id: "miniui", text: "MiniUI" }],
+    orgType = [{ id: "hq", text: "总部公司" }, { id: "company", text: "地区公司" }, { id: "factory", text: "分厂" }];
+
+    mini.parse();
+
+    var tip = new mini.ToolTip();
+    tip.set({
+        target: document,
+        selector: '[data-tooltip]'
+    });
+
+    var treegrid = mini.get("treegrid");
+
+    function onBeforeOpen(e) {
+        var menu = e.sender;
+
+        var node = treegrid.getSelectedNode();
+        if (!node) {
+            e.cancel = true;
+            return;
+        }
+        if (node && node.text == "Base") {
+            e.cancel = true;
+            //阻止浏览器默认右键菜单
+            e.htmlEvent.preventDefault();
+            return;
+        }
+    }
+
+    function onKeyEnter(e) { search(); }
+
+    function search() {
+        var orgname = mini.get("orgname").getValue();
+        if (orgname == "") {
+            treegrid.clearFilter();
+            return;
+        }
+        orgname = orgname.toLowerCase();
+        treegrid.filter(function (node) {
+            var _orgname = node.OrgName ? node.OrgName.toLowerCase() : "";
+            if (_orgname.indexOf(orgname) != -1) return true;
+        });
+    }
+
+    function collapseNode() {
+        var node = treegrid.getSelectedNode();
+        treegrid.collapseNode(node);
+    }
+
+    function addNodeBefore() {
+        var node = treegrid.getSelectedNode();
+        var newNode = { OrgNo: node.OrgNo - 1, OrgIsValid: 1, OrgParentId: node.OrgParentId, OrgType: node.OrgType, name: "New Row" };
+        treegrid.addNode(newNode, "before", node);
+    }
+
+    function addNodeAfter() {
+        var node = treegrid.getSelectedNode();
+        var newNode = { OrgNo: node.OrgNo + 1, OrgIsValid: 1, OrgParentId: node.OrgParentId, OrgType: node.OrgType, name: "New Row" };
+        treegrid.addNode(newNode, "after", node);
+    }
+
+    function addNodeLeaf() {
+        var node = treegrid.getSelectedNode();
+        var newNode = { OrgNo: (treegrid.getChildNodes(node) ? 1 : treegrid.getChildNodes(node).length + 1), OrgIsValid: 1, OrgParentId: node.OrgId, name: "New Row" };
+        treegrid.addNode(newNode, "add", node);
+    }
+
+    function saveData() {
+        treegrid.validate();
+        if (!treegrid.isValid()) {
+            var error = treegrid.getCellErrors()[0];
+            treegrid.beginEditCell(error.record, error.column);
+            mini.showTips({
+                content: "<b>警告</b> <br/>请输入所有要求字段！",
+                state: "warning",
+                x: "center",
+                y: "center",
+                timeout: 2000
+            });
+            return;
+        }
+
+        var addData = treegrid.getChanges("added");
+        var modifyData = treegrid.getChanges("modified");
+
+        if (addData.length == 0 && modifyData.length == 0 ) {
+            mini.showTips({
+                content: "<b>警告</b> <br/>未检测到任何修改！",
+                state: "warning",
+                x: "center",
+                y: "center",
+                timeout: 2000
+            });
+            return;
+        }
+        treegrid.loading("保存中，请稍后......");
+
+        mini.get("btnSave").set({ enabled: false });
+        $.ajax({
+            url: "../../System/SysStructure/SaveOrgChanges",
+            data: { addData: mini.encode(addData), modifyData: mini.encode(modifyData) },
+            type: "post",
+            success: function (text, flag, res) {
+                treegrid.unmask();
+                var msg = mini.decode(arguments[2].responseText);
+                if (msg.isSuccess) {
+                    mini.showTips({
+                        content: "<b>成功</b> <br/>保存成功！",
+                        state: "success",
+                        x: "center",
+                        y: "center",
+                        timeout: 2000
+                    });
+
+                    treegrid.reload(function () { search(); });
+                } else {
+                    mini.showMessageBox({
+                        title: "保存失败",
+                        iconCls: "mini-messagebox-warning",
+                        buttons: ["ok"],
+                        message: "失败原因：<br/>" + msg.DisplayErrorMsg + "其余保存成功！",
+                        callback: function (action) { }
+                    });
+                }
+                mini.get("btnSave").set({ enabled: true });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                treegrid.unmask();
+                mini.showTips({
+                    content: "<b>失败</b> <br/>保存失败！",
+                    state: "danger",
+                    x: "center",
+                    y: "center",
+                    timeout: 2000
+                });
+                mini.get("btnSave").set({ enabled: true });
+            }
+        });
+    }
+
+    function createRootOrg() {
+        var newNode = { OrgNo: 1, OrgIsValid: 1, OrgParentId: null, name: "New Row" };
+
+        treegrid.addNode(newNode);
+    }
+
+    function collapseAll() {
+        treegrid.collapseAll();
+    }
+
+</script>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B449DD12-B208-4498-A73D-B8A7F0CF3205}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SystemRepository</RootNamespace>
+    <AssemblyName>SystemRepository</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="IBatisNet.Common">
+      <HintPath>..\AnyWay.Apps.Libs\IBatisNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.DataMapper">
+      <HintPath>..\AnyWay.Apps.Libs\IBatisNet.DataMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SysGroupMenuActionRepository.cs" />
+    <Compile Include="SysGroupOrgRepository.cs" />
+    <Compile Include="SysGroupUserRepository.cs" />
+    <Compile Include="SysGroupMenuRepository.cs" />
+    <Compile Include="SysLogRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysMenuActionRepository.cs" />
+    <Compile Include="SysMenuSpclRepository.cs" />
+    <Compile Include="SysMenuRepository.cs" />
+    <Compile Include="SysGroupRepository.cs" />
+    <Compile Include="SysOrgRepository.cs" />
+    <Compile Include="SysUserRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AnyWay.Apps.Core\AnyWay.Apps.Core.csproj">
+      <Project>{11bd915f-b26b-428c-8eb6-a08835d05307}</Project>
+      <Name>AnyWay.Apps.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AnyWay.Apps.Persistence\AnyWay.Apps.Persistence.csproj">
+      <Project>{62f91082-53f0-4b85-a688-cf4d11f002a7}</Project>
+      <Name>AnyWay.Apps.Persistence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ISystemRepository\ISystemRepository.csproj">
+      <Project>{1673213b-31a4-4183-b6e2-1210739de744}</Project>
+      <Name>ISystemRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models.System\Models.System.csproj">
+      <Project>{acaa896e-8e96-44e1-aa05-c8210ed60dd8}</Project>
+      <Name>Models.System</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

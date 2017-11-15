@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>信息管理系统</title>
+    <link href="~/Content/css/base.css" rel="stylesheet">
+    <link href="~/Content/css/platform.css" rel="stylesheet">
+    <link href="~/Content/fonts/iconfont.css" rel="stylesheet" />
+    <link href="~/Content/easyui/themes/metro/easyui.css" rel="stylesheet" />
+    <link href="~/Content/easyui/themes/icon.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div id="pf-hd">
+            <div class="pf-logo">
+                <img src="/Content/images/main/main_logo.png" alt="logo">
+            </div>
+            <div class="pf-nav-wrap">
+                <div class="pf-nav-ww">
+                    <ul class="pf-nav"></ul>
+                </div>
+                <a href="javascript:;" class="pf-nav-prev disabled"><i class="iconfont icon-xiangxia"></i></a>
+                <a href="javascript:;" class="pf-nav-next"><i class="iconfont icon-xiangshang"></i></a>
+            </div>
+            <div class="pf-user">
+                <span id="msgts" class="msgts">0</span>
+                <div class="pf-user-photo">
+                    <img src="/Content/images/main/user.png" alt="">
+                </div>
+                <h4 class="pf-user-name ellipsis">超级管理员</h4>
+                <i class="iconfont icon-xiangxia"></i>
+
+                <div class="pf-user-panel">
+                    <ul class="pf-user-opt">
+                        <li>
+                            <a href="javascript:;">
+                                <i class="iconfont icon-yonghu"></i>
+                                <span class="pf-opt-name">用户信息</span>
+                            </a>
+                        </li>
+                        <li class="pf-modify-pwd">
+                            <a href="https://javamaker.taobao.com/">
+                                <i class="iconfont icon-shoujianxiang"></i>
+                                <span class="pf-opt-name">消息<i class="mailtext">[10]</i></span>
+                            </a>
+                        </li>
+                        <li class="pf-modify-pwd">
+                            <a href="https://javamaker.taobao.com/">
+                                <i class="iconfont icon-mima"></i>
+                                <span class="pf-opt-name">修改密码</span>
+                            </a>
+                        </li>
+                        <li class="pf-logout">
+                            <a href="javascript:;">
+                                <i class="iconfont icon-tuichu"></i>
+                                <span class="pf-opt-name">退出</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div id="pf-bd">
+            <div class="pf-sider-wrap">
+            </div>
+            <div id="pf-page">
+                <div id="main_tabs" class="easyui-tabs" data-options="fit:true">
+                    <div title="首 页" style="padding:10px">
+                        <p style="font-size:14px">jQuery EasyUI framework helps you build your web pages easily.</p>
+                        <ul style="line-height:50px">
+                            <li>easyui is a collection of user-interface plugin based on jQuery.</li>
+                            <li>easyui provides essential functionality for building modem, interactive, javascript applications.</li>
+                            <li>using easyui you don't need to write many javascript code, you usually defines user-interface by writing some HTML markup.</li>
+                            <li>complete framework for HTML5 web page.</li>
+                            <li>easyui save your time and scales while developing your products.</li>
+                            <li>easyui is very easy but powerful.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="pf-ft">
+            <div class="system-name">
+                <i class="iconfont icon-information"></i>
+                <span>信息管理系统&nbsp;v1.0</span>
+            </div>
+            <div class="copyright-name">
+                <span>CopyRight&nbsp;2017&nbsp;&nbsp;&nbsp;有志者事静诚&nbsp;&nbsp;&nbsp;版权所有</span>
+                <i class="iconfont icon-xiangyou3"></i>
+            </div>
+        </div>
+    </div>
+
+    <div id="mm" class="easyui-menu tabs-menu" style="width:120px;display:none;">
+        <div name="close_current" data-options="iconCls:'icon-tab-close'">关闭</div>
+        <div name="close_all" data-options="iconCls:'icon-tab-close-all'">关闭所有</div>
+        <div name="close_other" data-options="iconCls:'icon-tab-close-other'">关闭其他</div>
+    </div>
+
+    <script type="text/javascript" src="~/Scripts/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/easyui/menu.js"></script>
+    <script type="text/javascript" src="~/Scripts/easyui/main.js"></script>
+    <!--[if IE 7]>
+      <script type="text/javascript">
+        $(window).resize(function(){
+          $('#pf-bd').height($(window).height()-76);
+        }).resize();
+
+      </script>
+    <![endif]-->
+    <script type="text/javascript">
+        $(window).resize(function () {
+            $('.tabs-panels').height($("#pf-page").height() - 46);
+            $('.panel-body').not('.messager-body').height($(".easyui-dialog").height)
+        }).resize();
+
+        var page = 0,
+            pages = ($('.pf-nav').height() / 70) - 1;
+
+        if (pages === 0) {
+            $('.pf-nav-prev,.pf-nav-next').hide();
+        }
+        $(document).on('click', '.pf-nav-prev,.pf-nav-next', function () {
+            if ($(this).hasClass('disabled')) return;
+            if ($(this).hasClass('pf-nav-next')) {
+                page++;
+                $('.pf-nav').stop().animate({ 'margin-top': -70 * page }, 200);
+                if (page == pages) {
+                    $(this).addClass('disabled');
+                    $('.pf-nav-prev').removeClass('disabled');
+                } else {
+                    $('.pf-nav-prev').removeClass('disabled');
+                }
+
+            } else {
+                page--;
+                $('.pf-nav').stop().animate({ 'margin-top': -70 * page }, 200);
+                if (page == 0) {
+                    $(this).addClass('disabled');
+                    $('.pf-nav-next').removeClass('disabled');
+                } else {
+                    $('.pf-nav-next').removeClass('disabled');
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+﻿@section css{
+    <style>
+        .function-item {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+            .function-item input {
+                vertical-align: top;
+            }
+    </style>
+
+}
+<div style="width: 100%;">
+    <div id="toolbar" class="mini-toolbar" style="border-bottom: 0; padding: 0px;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 100%;">
+                    <a id="btnSave" class="mini-button" iconcls="icon-save" onclick="saveData();" plain="true">保存</a>
+                    <span class="separator"></span>
+                    <a class="mini-button" iconcls="icon-collapse" onclick="collapseAll();" plain="true">全部折叠</a>
+                    <input id="groupId" class="mini-hidden" value="@ViewBag.groupId" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="mini-fit">
+    <div id="treegrid" class="mini-treegrid" style="width:100%;height:100%;" showtreeicon="true"
+         url="../../System/SysAuthority/GetMenuListByGroupId?groupId=@ViewBag.groupId" treecolumn="MenuName" idfield="MenuId" parentfield="MenuParentId" iconfield="MenuIconPath"
+         allowresize="false" expandonload="true" contextmenu="#treeMenu" checkrecursive="false" showcheckbox="true" checkontextclick="false"
+         resultastree="false" showtreelines="true" checkedfield="MenuIsCheck">
+        <div property="columns">
+            <div type="indexcolumn"></div>
+            <div name="MenuName" field="MenuName" headeralign="center" width="190" vtype="required;maxLength:150">
+                菜单名称
+            </div>
+            <div name="MenuLink" field="MenuLink" headeralign="center" width="225" vtype="maxLength:150">
+                菜单地址
+            </div>
+            <div name="MenuAction" width="390" headeralign="center">
+                操作项
+            </div>
+            <div type="checkboxcolumn" field="MenuIsHidden" headeralign="center" truevalue="1" falsevalue="0" width="40" readonly="true">隐藏</div>
+            <div name="MenuRemark" field="MenuRemark" headeralign="center" width="100" vtype="maxLength:150">
+                菜单备注
+            </div>
+        </div>
+    </div>
+</div>
+<ul id="treeMenu" class="mini-contextmenu" onbeforeopen="onBeforeOpen">
+    <li iconcls="icon-collapse" onclick="collapseNode">折叠节点</li>
+</ul>
+<script type="text/javascript">
+    mini.parse();
+
+    var treegrid = mini.get("treegrid");
+    new ParentNodeCheck(treegrid);
+
+    treegrid.on("drawcell", function (e) {
+        var tree = e.sender,
+            record = e.record,
+            column = e.column,
+            field = e.field,
+            id = record[treegrid.getIdField()],
+            funs = record.MenuActions;
+
+        function createCheckboxs(funs) {
+            if (!funs) return "";
+            var html = "";
+            for (var i = 0, l = funs.length; i < l; i++) {
+                var fn = funs[i];
+                var clickFn = 'checkFunc(\'' + id + '\',\'' + fn.ActionId + '\', this.checked)';
+                var checked = fn.ActionIsCheck ? 'checked' : '';
+                html += '<label class="function-item"><input onclick="' + clickFn + '" ' + checked + ' type="checkbox" name="'
+                        + fn.ActionId + '" hideFocus/>' + fn.ActionName + '</label>';
+                if (i != 0 && i % 5 == 0) {
+                    html += '<br/>';
+                }
+            }
+            return html;
+        }
+
+        if (column.name == 'MenuAction') {
+            e.cellHtml = createCheckboxs(funs);
+        }
+
+    });
+
+    function checkFunc(id, action, checked, isall) {
+        var record = treegrid.getRecord(id);
+        if (!record) return;
+        var funs = record.MenuActions;
+        if (!funs) return;
+        function getAction(action) {
+            for (var i = 0, l = funs.length; i < l; i++) {
+                var o = funs[i];
+                if (o.ActionId == action) return o;
+            }
+        }
+        var obj = getAction(action);
+        if (!obj) return;
+        obj.ActionIsCheck = checked;
+    }
+
+    function onBeforeOpen(e) {
+        var menu = e.sender;
+
+        var node = treegrid.getSelectedNode();
+        if (!node) {
+            e.cancel = true;
+            return;
+        }
+        if (node && node.text == "Base") {
+            e.cancel = true;
+            //阻止浏览器默认右键菜单
+            e.htmlEvent.preventDefault();
+            return;
+        }
+
+    }
+
+    function collapseNode() {
+        var node = treegrid.getSelectedNode();
+        treegrid.collapseNode(node);
+    }
+
+    function saveData() {
+        var nodes = treegrid.getCheckedNodes(true);
+        var groupId = mini.get("groupId").getValue();
+
+        var data = new Array(),
+        dataAction = new Array();
+
+        for (var i = 0; i < nodes.length; i++) {
+            data.push({ GroupId: groupId, MenuId: nodes[i].MenuId });
+            if (nodes[i].MenuActions.length > 0) {
+                for (var j = 0; j < nodes[i].MenuActions.length; j++) {
+                    if (nodes[i].MenuActions[j].ActionIsCheck) {
+                        dataAction.push({ GroupId: groupId, MenuId: nodes[i].MenuActions[j].MenuId, ActionId: nodes[i].MenuActions[j].ActionId });
+                    }
+                }
+            }
+        }
+
+        treegrid.loading("保存中，请稍后......");
+
+        mini.get("btnSave").set({ enabled: false });
+
+        $.ajax({
+            url: "../../System/SysAuthority/SaveGroupMenuChanges",
+            data: { addData: mini.encode(data), addAction: mini.encode(dataAction) },
+            type: "post",
+            success: function (text, flag, res) {
+                treegrid.unmask();
+                var msg = mini.decode(arguments[2].responseText);
+                if (msg.isSuccess) {
+                    mini.showTips({
+                        content: "<b>成功</b> <br/>保存成功！",
+                        state: "success",
+                        x: "center",
+                        y: "center",
+                        timeout: 2000
+                    });
+                    treegrid.reload();
+                } else {
+                    mini.showMessageBox({
+                        title: "保存失败",
+                        iconCls: "mini-messagebox-warning",
+                        buttons: ["ok"],
+                        message: "失败原因：<br/>" + msg.DisplayErrorMsg + "其余保存成功！",
+                        callback: function (action) { }
+                    });
+                }
+                mini.get("btnSave").set({ enabled: true });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                treegrid.unmask();
+                mini.showTips({
+                    content: "<b>失败</b> <br/>保存失败！",
+                    state: "danger",
+                    x: "center",
+                    y: "center",
+                    timeout: 2000
+                });
+                mini.get("btnSave").set({ enabled: true });
+            }
+        });
+    }
+
+    function collapseAll() {
+        treegrid.collapseAll();
+    }
+</script>

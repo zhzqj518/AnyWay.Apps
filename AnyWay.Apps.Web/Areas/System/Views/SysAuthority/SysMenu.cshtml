@@ -1,0 +1,486 @@
+﻿<div style="width: 100%;">
+    <div id="toolbar" class="mini-toolbar" style="border-bottom: 0; padding: 0;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 100%;">
+                    <a id="btnSave" class="mini-button" iconcls="icon-save" onclick="saveData();" plain="true">保存</a>
+                    <span class="separator"></span>
+                    <a id="btnCreateTop" class="mini-button" iconcls="icon-edit-top" onclick="createTopMenu();" plain="true">创建顶部菜单</a>
+                    <span class="separator"></span>
+                    <a id="btnCollapseAll" class="mini-button" iconcls="icon-collapse" onclick="collapseAll();" plain="true">全部折叠</a>
+                    <span class="separator"></span>
+                    <a id="btnShowAction" class="mini-button" iconcls="fa-tags" onclick="showAction()" plain="false">操作项配置</a>
+                    <span class="separator"></span>
+                    <a id="tips" class="mini-button" iconcls="icon-tip" data-tooltip="" plain="true">提示</a>
+                </td>
+                <td style="white-space: nowrap;">
+                    <input id="menuname" class="mini-textbox" emptytext="请输入功能节点名称" style="width: 150px;" onenter="onKeyEnter" />
+                    <a id="btnSearch" class="mini-button" iconcls="icon-search" plain="true" onclick="search()" tooltip="搜索"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="mini-fit">
+    <div id="splitter" class="mini-splitter" style="width:100%;height:100%;" allowresize="false">
+        <div>
+            <div id="treegrid" class="mini-treegrid" style="width:100%;height:100%;" showtreeicon="true" allowdrag="true" allowdrop="true"
+                 url="../../System/SysAuthority/GetSysAllMenu" treecolumn="MenuName" idfield="MenuId" parentfield="MenuParentId" iconfield="MenuIconPath"
+                 allowresize="false" expandonload="true" allowcelledit="true" allowcellvalid="true" allowcellselect="true" contextmenu="#treeMenu"
+                 resultastree="false" showtreelines="true" allowleafdropin="false" allowdrag="false" allowdrop="false">
+                <div property="columns">
+                    <div type="indexcolumn"></div>
+                    <div name="IconImg" field="IconImg" headeralign="center" align="center" width="25" visible="false"></div>
+                    <div name="MenuName" field="MenuName" headeralign="center" width="190" vtype="required;maxLength:150">
+                        菜单名称
+                        <input property="editor" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div name="MenuLink" field="MenuLink" headeralign="center" width="280" vtype="maxLength:150">
+                        菜单地址
+                        <input property="editor" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div type="comboboxcolumn" name="MenuIcon" field="MenuIcon" headeralign="center" width="90" vtype="maxLength:150">
+                        菜单图标
+                        <input property="editor" class="mini-combobox" style="width: 100%;" data="iconType" idfield="id" textfield="text" />
+                    </div>
+                    <div name="MenuIconPath" field="MenuIconPath" headeralign="center" width="120" vtype="maxLength:150">
+                        图标class
+                        <input property="editor" class="mini-textbox" style="width: 100%;" />
+                    </div>
+                    <div type="comboboxcolumn" name="MenuType" field="MenuType" headeralign="center" width="80" readonly="true">
+                        菜单类型
+                        <input property="editor" class="mini-combobox" style="width: 100%;" data="menuType" idfield="id" textfield="text" />
+                    </div>
+                    <div type="checkboxcolumn" field="MenuIsLeaf" headeralign="center" truevalue="1" falsevalue="0" width="40" readonly="true">叶子</div>
+                    <div type="checkboxcolumn" field="MenuIsValid" headeralign="center" truevalue="1" falsevalue="0" width="40">启用</div>
+                    <div type="checkboxcolumn" field="MenuIsHidden" headeralign="center" truevalue="1" falsevalue="0" width="40">隐藏</div>
+                    <div name="MenuNo" field="MenuNo" headeralign="center" width="50">
+                        排序
+                        <input property="editor" class="mini-spinner" minivalue="1" style="width: 100%;" />
+                    </div>
+                    <div name="MenuRemark" field="MenuRemark" headeralign="center" width="200" vtype="maxLength:150">
+                        菜单备注
+                        <input property="editor" class="mini-textarea" style="width: 100%;" />
+                    </div>
+                    <div type="comboboxcolumn" name="MenuOperation" field="MenuOperation" headeralign="center" width="80">
+                        菜单操作
+                        <input property="editor" class="mini-combobox" style="width: 100%;" data="menuOperation" idfield="id" textfield="text" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div size="300" showcollapsebutton="false">
+            <div class="mini-toolbar" style="border-bottom: 0; padding: 0;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 100%;">
+                            <a id="btnHideAction" class="mini-button" iconcls="fa-hand-o-left" onclick="hideAction()" plain="false">关闭</a>
+                            <span class="separator"></span>
+                            <a class="mini-button" iconcls="icon-add" onclick="addAction();" plain="true">新增</a>
+                            <span class="separator"></span>
+                            <a class="mini-button" iconcls="icon-remove" onclick="removeAction();" plain="true">删除</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="mini-fit">
+                <input id="selectMenuId" class="mini-hidden" />
+                <input id="selectMenuName" class="mini-hidden" />
+                <input id="selectId" class="mini-hidden" />
+                <div id="datagrid" class="mini-datagrid" style="width: 100%; height: 100%;" allowresize="false" pagesize="20"
+                     sizelist="[20,50,100,500]" allowcelledit="true" allowcellselect="true"
+                     multiselect="true" allowcellvalid="true" fitcolumns="false" showemptytext="true" emptytext="无操作项">
+                    <div property="columns">
+                        <div type="checkcolumn"></div>
+                        <div type="indexcolumn"></div>
+                        <div field="ActionName" vtype="required;maxLength:150" width="95" headeralign="center" allowsort="true">
+                            名称
+                            <input property="editor" class="mini-textbox" style="width: 100%;" />
+                        </div>
+                        <div field="ActionBtnId" vtype="required;maxLength:150" width="95" headeralign="center" allowsort="true">
+                            控件Id
+                            <input property="editor" class="mini-textbox" style="width: 100%;" />
+                        </div>
+                        <div type="checkboxcolumn" field="ActionIsValid" headeralign=" center" truevalue="1" falsevalue="0" width="40">有效 </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ul id="treeMenu" class="mini-contextmenu" onbeforeopen="onBeforeOpen">
+    <li>
+        <span iconcls="icon-add">新增节点</span>
+        <ul>
+            <li iconcls="icon-new" onclick="addNodeBefore">插入节点前</li>
+            <li iconcls="icon-addnew" onclick="addNodeAfter">插入节点后</li>
+            <li iconcls="icon-rightarrow" onclick="addNodeLeaf">插入子节点</li>
+        </ul>
+    </li>
+    <li iconcls="icon-collapse" onclick="collapseNode">折叠节点</li>
+    <li name="remove" iconcls="icon-remove" onclick="removeNode">删除节点</li>
+</ul>
+
+<script type="text/javascript">
+    //iconType = [{ id: "fontawesome", text: "Font Awesome" }, { id: "miniui", text: "MiniUI" }, { id: "iconfont", text: "iconfont" }]
+    var iconType = [{ id: "fontawesome", text: "Font Awesome" }, { id: "miniui", text: "MiniUI" }];
+    menuOperation = [{ id: "01", text: "普通节点" }, { id: "02", text: "弹出节点" }],
+    menuType = [{ id: "top", text: "顶部菜单" }, { id: "slide", text: "侧边分组菜单" }, { id: "tree", text: "树形子菜单" }];
+
+    mini.parse();
+
+    var selectMenu = null;
+
+    var splitter = mini.get("splitter");
+    var treegrid = mini.get("treegrid");
+    var datagrid = mini.get("datagrid");
+
+    splitter.collapsePane(2);
+
+    splitter.on("collapse", function (e) {
+        if (e.paneIndex == 2) {
+            treegrid.unFrozenColumns();
+        }
+    });
+
+    splitter.on("expand", function (e) {
+        if (e.paneIndex == 2) {
+            treegrid.frozenColumns(0, 3);
+        }
+    });
+
+    var tip = new mini.ToolTip();
+    tip.set({
+        target: document,
+        selector: '[data-tooltip]'
+    });
+
+    generateTips();
+
+    function onBeforeOpen(e) {
+        var menu = e.sender;
+
+        var node = treegrid.getSelectedNode();
+        if (!node) {
+            e.cancel = true;
+            return;
+        }
+        if (node && node.text == "Base") {
+            e.cancel = true;
+            //阻止浏览器默认右键菜单
+            e.htmlEvent.preventDefault();
+            return;
+        }
+
+        var removeItem = mini.getbyName("remove", menu);
+        removeItem.enable();
+
+        if (node.id == "forms") {
+            editItem.hide();
+        }
+        if (node.id == "lists") {
+            removeItem.disable();
+        }
+    }
+
+    treegrid.on("drawcell", function (e) {
+        var node = e.node,
+            column = e.column,
+            field = e.field,
+            value = e.value;
+        if (column.name == "IconImg") {
+            if (node.MenuIcon == "miniui") {
+                e.cellHtml = '<div style="width:16px;height:16px;" class="' + node.MenuIconPath + '"></div>';
+            } else if (node.MenuIcon == "fontawesome") {
+                e.cellHtml = '<span style="width:23px;height:23px;""><i class="fa ' + node.MenuIconPath + '" aria-hidden="true"></i></span>';
+            } else if (node.MenuIcon == "iconfont") {
+                e.cellHtml = '<span style="width:16px;height:16px;"><i class="iconfont ' + node.MenuIconPath + '"></i></span>';
+            }
+        }
+    });
+
+    treegrid.on("beforenodeselect", function (e) {
+        if (splitter.getPane(2).expanded) {
+            if (datagrid.getChanges().length > 0) {
+                e.cancel = true;
+                mini.confirm("菜单：" + mini.get("selectMenuName").getValue() + "的操作项有修改尚未保存，确认不保存？", "确定？", function (action) {
+                    if (action == "ok") {
+                        treegrid.selectNode(e.node);
+                    } else {
+                        e.cancel = false;
+                    }
+                });
+            }
+        }
+    });
+
+    treegrid.on("nodeselect", function (e) {
+        debugger;
+        mini.get("selectMenuId").setValue(treegrid.getSelectedNode().MenuId);
+        mini.get("selectMenuName").setValue(treegrid.getSelectedNode().MenuName);
+        mini.get("selectId").setValue(treegrid.getSelectedNode()._id);
+        selectMenu = treegrid.getSelectedNode();
+
+        if (splitter.getPane(2).expanded) {
+            loadActions();
+        }
+    });
+
+    function onKeyEnter(e) { search(); }
+
+    function search() {
+        datagrid.accept();
+        hideAction();
+        var menuname = mini.get("menuname").getValue();
+        if (menuname == "") {
+            treegrid.clearFilter();
+            return;
+        }
+
+        menuname = menuname.toLowerCase();
+
+        treegrid.filter(function (node) {
+            var _menuname = node.MenuName ? node.MenuName.toLowerCase() : "";
+            if (_menuname.indexOf(menuname) != -1) return true;
+        });
+    }
+
+    function collapseNode() {
+        var node = treegrid.getSelectedNode();
+        treegrid.collapseNode(node);
+    }
+
+    function addNodeBefore() {
+        var node = treegrid.getSelectedNode();
+        var MenuType = "tree";
+        if (node._level == 0) {
+            MenuType = "top";
+        } else if (node._level == 1) {
+            MenuType = "slide";
+        }
+        var newNode = { MenuType: MenuType, MenuIsLeaf: 1, MenuIsValid: 1, MenuIsHidden: 0, MenuNo: node.MenuNo - 1, MenuParentId: node.MenuParentId, MenuOperation: "01", name: "New Row" };
+        treegrid.addNode(newNode, "before", node);
+    }
+
+    function addNodeAfter() {
+        var node = treegrid.getSelectedNode();
+        var MenuType = "tree";
+        if (node._level == 0) {
+            MenuType = "top";
+        } else if (node._level == 1) {
+            MenuType = "slide";
+        }
+        var newNode = { MenuType: MenuType, MenuIsLeaf: 1, MenuIsValid: 1, MenuIsHidden: 0, MenuNo: node.MenuNo + 1, MenuParentId: node.MenuParentId, MenuOperation: "01", name: "New Row" };
+        treegrid.addNode(newNode, "after", node);
+    }
+
+    function addNodeLeaf() {
+        var node = treegrid.getSelectedNode();
+        var MenuType = "tree";
+        if (node._level == 0) {//顶部菜单添加子节点是侧边菜单,其他都是树形菜单
+            MenuType = "slide";
+        }
+        if (node.MenuIsLeaf == 1) {
+            treegrid.updateNode(node, { MenuIsLeaf: 0 });
+        }
+        var newNode = { MenuType: MenuType, MenuIsLeaf: 1, MenuIsValid: 1, MenuIsHidden: 0, MenuNo: (treegrid.getChildNodes(node) ? 1 : treegrid.getChildNodes(node).length + 1), MenuParentId: node.MenuParentId, MenuOperation: node.MenuOperation, name: "New Row" };
+        treegrid.addNode(newNode, "add", node);
+    }
+
+    function removeNode() {
+        var node = treegrid.getSelectedNode();
+        if (node != null) {
+            mini.confirm("确定删除该菜单(及包含菜单)吗？", "确定？", function (action) {
+                if (action == "ok") {
+                    treegrid.removeNode(node);
+                    var parentObj = treegrid.getParentNode(node);
+                    if (treegrid.getChildNodes(parentObj).length == 0) {
+                        treegrid.updateNode(parentObj, { MenuIsLeaf: 1 });
+                    }
+                };
+            });
+        }
+    }
+
+    function saveData() {
+        treegrid.validate();
+        datagrid.validate();
+        if (!treegrid.isValid()) {
+            var error = treegrid.getCellErrors()[0];
+            treegrid.beginEditCell(error.record, error.column);
+            mini.showTips({
+                content: "<b>警告</b> <br/>请输入所有要求字段！",
+                state: "warning",
+                x: "center",
+                y: "center",
+                timeout: 2000
+            });
+            return;
+        }
+
+        if (!datagrid.isValid()) {
+            var error = datagrid.getCellErrors()[0];
+            datagrid.beginEditCell(error.record, error.column);
+            mini.showTips({
+                content: "<b>警告</b> <br/>请输入所有要求字段！",
+                state: "warning",
+                x: "center",
+                y: "center",
+                timeout: 2000
+            });
+        }
+
+        var addData = treegrid.getChanges("added");
+        var modifyData = treegrid.getChanges("modified");
+        var removeData = treegrid.getChanges("removed");
+
+        var addActionData = datagrid.getChanges("added");
+        var modifyActionData = datagrid.getChanges("modified");
+        var removeActionData = datagrid.getChanges("removed");
+
+        if (addData.length == 0 && modifyData.length == 0 && removeData.length == 0 && addActionData.length == 0 && modifyActionData.length == 0 && removeActionData.length == 0) {
+            mini.showTips({
+                content: "<b>警告</b> <br/>未检测到任何修改！",
+                state: "warning",
+                x: "center",
+                y: "center",
+                timeout: 2000
+            });
+            return;
+        }
+
+        treegrid.loading("保存中，请稍后......");
+
+        mini.get("btnSave").set({ enabled: false });
+        $.ajax({
+            url: "../../System/SysAuthority/SaveMenuChanges",
+            data: {
+                addData: mini.encode(addData), modifyData: mini.encode(modifyData), removeData: mini.encode(removeData),
+                addActionData: mini.encode(addActionData), modifyActionData: mini.encode(modifyActionData), removeActionData: mini.encode(removeActionData)
+            },
+            type: "post",
+            success: function (text, flag, res) {
+                treegrid.unmask();
+                var msg = mini.decode(arguments[2].responseText);
+                if (msg.isSuccess) {
+                    mini.showTips({
+                        content: "<b>成功</b> <br/>保存成功！",
+                        state: "success",
+                        x: "center",
+                        y: "center",
+                        timeout: 2000
+                    });
+
+                    treegrid.reload(function () {
+                        search();
+                    });
+                } else {
+                    mini.showMessageBox({
+                        title: "保存失败",
+                        iconCls: "mini-messagebox-warning",
+                        buttons: ["ok"],
+                        message: "失败原因：<br/>" + msg.DisplayErrorMsg + "其余保存成功！",
+                        callback: function (action) { }
+                    });
+                }
+                mini.get("btnSave").set({ enabled: true });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                treegrid.unmask();
+                mini.showTips({
+                    content: "<b>失败</b> <br/>保存失败！",
+                    state: "danger",
+                    x: "center",
+                    y: "center",
+                    timeout: 2000
+                });
+                mini.get("btnSave").set({ enabled: true });
+            }
+        });
+    }
+
+    function createTopMenu() {
+        var newNode = { MenuType: "top", MenuIsLeaf: 1, MenuIsValid: 1, MenuIsHidden: 0, MenuNo: 1, MenuParentId: null, MenuOperation: "01", name: "New Row" };
+
+        treegrid.addNode(newNode);
+    }
+
+    function collapseAll() {
+        treegrid.collapseAll();
+    }
+
+    function showAction() {
+        if (splitter.getPane(2).expanded) {
+            return;
+        }
+
+        if (!treegrid.getSelectedNode()) {
+            mini.showTips({
+                content: "<b>警告</b> <br/>请选择一条记录！",
+                state: "warning",
+                x: "center",
+                y: "center",
+                timeout: 2000
+            });
+            return;
+        }
+        splitter.expandPane(2);
+
+        loadActions();
+    }
+
+    function hideAction() {
+        if (datagrid.getChanges().length > 0) {
+            mini.confirm("菜单：" + mini.get("selectMenuName").getValue() + "的操作项有修改尚未保存，确认不保存？", "确定？", function (action) {
+                if (action == "ok") {
+                    splitter.collapsePane(2);
+                    datagrid.accept();
+                }
+            });
+        } else {
+            splitter.collapsePane(2);
+        }
+    }
+
+    function addAction() {
+        var newRow = { MenuId: mini.get("selectMenuId").getValue(), ActionIsValid: 1, _menuid: mini.get("selectId").getValue() };
+        datagrid.addRow(newRow);
+    }
+
+    function removeAction() {
+        var rows = datagrid.getSelecteds();
+        if (rows && rows.length > 0) {
+            datagrid.removeRows(rows);
+        }
+    }
+
+    function loadActions() {
+        if (treegrid.getSelectedNode().MenuId == undefined) {
+            datagrid.setData([]);
+            datagrid._dataSource.loaded = true;
+            return;
+        }
+
+        datagrid.setUrl("../../System/SysAuthority/GetSysMenuActions?menuId=" + treegrid.getSelectedNode().MenuId);
+        datagrid.load();
+    }
+
+    function generateTips() {
+        var html = "<div style='width:550px;height:150px;text-align:left'>";
+        html += "<ul style='margin-left:-25px;'>";
+        html += "<li>菜单类型</li>";
+        html += "<ul style='margin-left:-25px'>";
+        html += "<li>顶部菜单:最上方菜单,图标推荐Font Awesome,因为Font Awesome为矢量图,MiniUI为固定大小图片</li>";
+        html += "<li>侧边分组菜单:最左侧一级菜单,图标Font Awesome与MiniUI均可</li>";
+        html += "<li>树形子菜单:最左侧一级菜单下的子菜单,支持树形结构,图标Font Awesome与MiniUI均可</li>";
+        html += "</ul>";
+        html += "<li>菜单操作</li>";
+        html += "<ul style='margin-left:-25px'>";
+        html += "<li>普通节点:普通的菜单,直接被框架加载</li>";
+        html += "<li>弹出节点:点击该种节点,弹出一个新的浏览器页面</li>";
+        html += "</ul>";
+        html += "</ul>";
+        html += "</div>";
+        $("#tips").attr("data-tooltip", html);
+    }
+</script>

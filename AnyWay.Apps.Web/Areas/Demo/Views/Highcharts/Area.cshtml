@@ -1,0 +1,681 @@
+﻿@section js{
+    <script src="~/Scripts/highcharts/code/highcharts.js"></script>
+    <script src="~/Scripts/highcharts/code/modules/series-label.js"></script>
+    <script src="~/Scripts/highcharts/code/modules/streamgraph.js"></script>
+    <script src="~/Scripts/highcharts/code/modules/annotations.js"></script>
+    <script src="~/Scripts/highcharts/code/modules/exporting.js"></script>
+}
+<div class="mini-fit">
+    <div style="float:left;">
+        <div id="chart0" style="width:600px;height:350px"></div>
+    </div>
+    <div style="float:left">
+        <div id="chart1" style="width:600px;height:350px"></div>
+    </div>
+    <div style="float:left">
+        <div id="chart2" style="width:600px;height:350px"></div>
+    </div>
+    <div style="float:left">
+        <div id="chart3" style="width:600px;height:350px"></div>
+    </div>
+    <div style="float:left">
+        <div id="chart4" style="width:600px;height:350px"></div>
+    </div>
+    <div style="float:left">
+        <div id="chart5" style="width:600px;height:350px"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        createChart0();
+        createChart1();
+        createChart2();
+        createChart3();
+        createChart4();
+        createChart5();
+
+        function createChart0() {
+            Highcharts.chart('chart0', {
+                chart: {
+                    type: 'area'
+                },
+                title: {
+                    text: 'US and USSR nuclear stockpiles'
+                },
+                subtitle: {
+                    text: 'Source: <a href="http://thebulletin.metapress.com/content/c4120650912x74k7/fulltext.pdf">' +
+                        'thebulletin.metapress.com</a>'
+                },
+                xAxis: {
+                    allowDecimals: false,
+                    labels: {
+                        formatter: function () {
+                            return this.value; // clean, unformatted number for year
+                        }
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Nuclear weapon states'
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value / 1000 + 'k';
+                        }
+                    }
+                },
+                tooltip: {
+                    pointFormat: '{series.name} produced <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
+                },
+                plotOptions: {
+                    area: {
+                        pointStart: 1940,
+                        marker: {
+                            enabled: false,
+                            symbol: 'circle',
+                            radius: 2,
+                            states: {
+                                hover: {
+                                    enabled: true
+                                }
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: 'USA',
+                    data: [null, null, null, null, null, 6, 11, 32, 110, 235, 369, 640,
+                        1005, 1436, 2063, 3057, 4618, 6444, 9822, 15468, 20434, 24126,
+                        27387, 29459, 31056, 31982, 32040, 31233, 29224, 27342, 26662,
+                        26956, 27912, 28999, 28965, 27826, 25579, 25722, 24826, 24605,
+                        24304, 23464, 23708, 24099, 24357, 24237, 24401, 24344, 23586,
+                        22380, 21004, 17287, 14747, 13076, 12555, 12144, 11009, 10950,
+                        10871, 10824, 10577, 10527, 10475, 10421, 10358, 10295, 10104]
+                }, {
+                    name: 'USSR/Russia',
+                    data: [null, null, null, null, null, null, null, null, null, null,
+                        5, 25, 50, 120, 150, 200, 426, 660, 869, 1060, 1605, 2471, 3322,
+                        4238, 5221, 6129, 7089, 8339, 9399, 10538, 11643, 13092, 14478,
+                        15915, 17385, 19055, 21205, 23044, 25393, 27935, 30062, 32049,
+                        33952, 35804, 37431, 39197, 45000, 43000, 41000, 39000, 37000,
+                        35000, 33000, 31000, 29000, 27000, 25000, 24000, 23000, 22000,
+                        21000, 20000, 19000, 18000, 18000, 17000, 16000]
+                }]
+            });
+        }
+
+        function createChart1() {
+            Highcharts.chart('chart1', {
+                chart: {
+                    type: 'area'
+                },
+                title: {
+                    text: 'Area chart with negative values'
+                },
+                xAxis: {
+                    categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'John',
+                    data: [5, 3, 4, 7, 2]
+                }, {
+                    name: 'Jane',
+                    data: [2, -2, -3, 2, 1]
+                }, {
+                    name: 'Joe',
+                    data: [3, 4, 4, -2, 5]
+                }]
+            });
+        }
+
+        function createChart2() {
+            Highcharts.chart('chart2', {
+                chart: {
+                    type: 'area'
+                },
+                title: {
+                    text: 'Historic and Estimated Worldwide Population Growth by Region'
+                },
+                subtitle: {
+                    text: 'Source: Wikipedia.org'
+                },
+                xAxis: {
+                    categories: ['1750', '1800', '1850', '1900', '1950', '1999', '2050'],
+                    tickmarkPlacement: 'on',
+                    title: {
+                        enabled: false
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Billions'
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value / 1000;
+                        }
+                    }
+                },
+                tooltip: {
+                    split: true,
+                    valueSuffix: ' millions'
+                },
+                plotOptions: {
+                    area: {
+                        stacking: 'normal',
+                        lineColor: '#666666',
+                        lineWidth: 1,
+                        marker: {
+                            lineWidth: 1,
+                            lineColor: '#666666'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Asia',
+                    data: [502, 635, 809, 947, 1402, 3634, 5268]
+                }, {
+                    name: 'Africa',
+                    data: [106, 107, 111, 133, 221, 767, 1766]
+                }, {
+                    name: 'Europe',
+                    data: [163, 203, 276, 408, 547, 729, 628]
+                }, {
+                    name: 'America',
+                    data: [18, 31, 54, 156, 339, 818, 1201]
+                }, {
+                    name: 'Oceania',
+                    data: [2, 2, 2, 6, 13, 30, 46]
+                }]
+            });
+        }
+
+        function createChart3() {
+            Highcharts.chart('chart3', {
+                chart: {
+                    type: 'area'
+                },
+                title: {
+                    text: 'Historic and Estimated Worldwide Population Distribution by Region'
+                },
+                subtitle: {
+                    text: 'Source: Wikipedia.org'
+                },
+                xAxis: {
+                    categories: ['1750', '1800', '1850', '1900', '1950', '1999', '2050'],
+                    tickmarkPlacement: 'on',
+                    title: {
+                        enabled: false
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Percent'
+                    }
+                },
+                tooltip: {
+                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>',
+                    split: true
+                },
+                plotOptions: {
+                    area: {
+                        stacking: 'percent',
+                        lineColor: '#ffffff',
+                        lineWidth: 1,
+                        marker: {
+                            lineWidth: 1,
+                            lineColor: '#ffffff'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Asia',
+                    data: [502, 635, 809, 947, 1402, 3634, 5268]
+                }, {
+                    name: 'Africa',
+                    data: [106, 107, 111, 133, 221, 767, 1766]
+                }, {
+                    name: 'Europe',
+                    data: [163, 203, 276, 408, 547, 729, 628]
+                }, {
+                    name: 'America',
+                    data: [18, 31, 54, 156, 339, 818, 1201]
+                }, {
+                    name: 'Oceania',
+                    data: [2, 2, 2, 6, 13, 30, 46]
+                }]
+            });
+        }
+
+        function createChart4() {
+            Highcharts.chart('chart4', {
+                chart: {
+                    type: 'area',
+                    inverted: true
+                },
+                title: {
+                    text: 'Average fruit consumption during one week'
+                },
+                subtitle: {
+                    style: {
+                        position: 'absolute',
+                        right: '0px',
+                        bottom: '10px'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -150,
+                    y: 100,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                },
+                xAxis: {
+                    categories: [
+                        'Monday',
+                        'Tuesday',
+                        'Wednesday',
+                        'Thursday',
+                        'Friday',
+                        'Saturday',
+                        'Sunday'
+                    ]
+                },
+                yAxis: {
+                    title: {
+                        text: 'Number of units'
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value;
+                        }
+                    },
+                    min: 0
+                },
+                plotOptions: {
+                    area: {
+                        fillOpacity: 0.5
+                    }
+                },
+                series: [{
+                    name: 'John',
+                    data: [3, 4, 3, 5, 4, 10, 12]
+                }, {
+                    name: 'Jane',
+                    data: [1, 3, 4, 3, 3, 5, 4]
+                }]
+            });
+        }
+
+        function createChart5() {
+            var colors = Highcharts.getOptions().colors;
+            Highcharts.chart('chart5', {
+
+                chart: {
+                    type: 'streamgraph',
+                    marginBottom: 30,
+                    zoomType: 'x'
+                },
+
+                // Make sure connected countries have similar colors
+                colors: [
+                    colors[0],
+                    colors[1],
+                    colors[2],
+                    colors[3],
+                    colors[4],
+                    // East Germany, West Germany and Germany
+                    Highcharts.color(colors[5]).brighten(0.2).get(),
+                    Highcharts.color(colors[5]).brighten(0.1).get(),
+
+                    colors[5],
+                    colors[6],
+                    colors[7],
+                    colors[8],
+                    colors[9],
+                    colors[0],
+                    colors[1],
+                    colors[3],
+                    // Soviet Union, Russia
+                    Highcharts.color(colors[2]).brighten(-0.1).get(),
+                    Highcharts.color(colors[2]).brighten(-0.2).get(),
+                    Highcharts.color(colors[2]).brighten(-0.3).get()
+                ],
+
+                title: {
+                    floating: true,
+                    align: 'left',
+                    text: 'Winter Olympic Medal Wins'
+                },
+                subtitle: {
+                    floating: true,
+                    align: 'left',
+                    y: 30,
+                    text: 'Source: <a href="https://www.sports-reference.com/olympics/winter/1924/">sports-reference.com</a>'
+                },
+
+                xAxis: {
+                    maxPadding: 0,
+                    type: 'category',
+                    crosshair: true,
+                    categories: [
+                        '',
+                        '1924 Chamonix',
+                        '1928 St. Moritz',
+                        '1932 Lake Placid',
+                        '1936 Garmisch-Partenkirchen',
+                        '1940 <i>Cancelled (Sapporo)</i>',
+                        '1944 <i>Cancelled (Cortina d\'Ampezzo)</i>',
+                        '1948 St. Moritz',
+                        '1952 Oslo',
+                        '1956 Cortina d\'Ampezzo',
+                        '1960 Squaw Valley',
+                        '1964 Innsbruck',
+                        '1968 Grenoble',
+                        '1972 Sapporo',
+                        '1976 Innsbruck',
+                        '1980 Lake Placid',
+                        '1984 Sarajevo',
+                        '1988 Calgary',
+                        '1992 Albertville',
+                        '1994 Lillehammer',
+                        '1998 Nagano',
+                        '2002 Salt Lake City',
+                        '2006 Turin',
+                        '2010 Vancouver',
+                        '2014 Sochi'
+                    ],
+                    labels: {
+                        align: 'left',
+                        reserveSpace: false,
+                        rotation: 270
+                    },
+                    lineWidth: 0,
+                    margin: 20,
+                    tickWidth: 0
+                },
+
+                yAxis: {
+                    visible: false,
+                    startOnTick: false,
+                    endOnTick: false
+                },
+
+                legend: {
+                    enabled: false
+                },
+
+                annotations: [{
+                    labels: [{
+                        point: {
+                            x: 5.5,
+                            xAxis: 0,
+                            y: 30,
+                            yAxis: 0
+                        },
+                        text: 'Cancelled<br>during<br>World War II'
+                    }, {
+                        point: {
+                            x: 18,
+                            xAxis: 0,
+                            y: 90,
+                            yAxis: 0
+                        },
+                        text: 'Soviet Union fell,<br>Germany united'
+                    }],
+                    labelOptions: {
+                        backgroundColor: 'rgba(255,255,255,0.5)',
+                        borderColor: 'silver'
+                    }
+                }],
+
+                plotOptions: {
+                    series: {
+                        label: {
+                            minFontSize: 5,
+                            maxFontSize: 15,
+                            style: {
+                                color: 'rgba(255,255,255,0.75)'
+                            }
+                        }
+                    }
+                },
+
+                // Data parsed with olympic-medals.node.js
+                series: [{
+                    "name": "Finland",
+                    "data": [
+                        0, 11, 4, 3, 6, 0, 0, 6, 9, 7, 8, 10, 5, 5, 7, 9, 13, 7, 7, 6, 12, 7, 9, 5, 5
+                    ]
+                }, {
+                    "name": "Austria",
+                    "data": [
+                        0, 3, 4, 2, 4, 0, 0, 8, 8, 11, 6, 12, 11, 5, 6, 7, 1, 10, 21, 9, 17, 17, 23, 16, 17
+                    ]
+                }, {
+                    "name": "Sweden",
+                    "data": [
+                        0, 2, 5, 3, 7, 0, 0, 10, 4, 10, 7, 7, 8, 4, 2, 4, 8, 6, 4, 3, 3, 7, 14, 11, 15
+                    ]
+                }, {
+                    "name": "Norway",
+                    "data": [
+                        0, 17, 15, 10, 15, 0, 0, 10, 16, 4, 6, 15, 14, 12, 7, 10, 9, 5, 20, 26, 25, 25, 19, 23, 26
+                    ]
+                }, {
+                    "name": "U.S.",
+                    "data": [
+                        0, 4, 6, 12, 4, 0, 0, 9, 11, 7, 10, 7, 7, 8, 10, 12, 8, 6, 11, 13, 13, 34, 25, 37, 28
+                    ]
+                }, {
+                    "name": "East Germany",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 14, 19, 23, 24, 25, 0, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "West Germany",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 5, 10, 5, 4, 8, 0, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "Germany",
+                    "data": [
+                        0, 0, 1, 2, 6, 0, 0, 0, 7, 2, 8, 9, 0, 0, 0, 0, 0, 0, 26, 24, 29, 36, 29, 30, 19
+                    ]
+                }, {
+                    "name": "Netherlands",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 2, 2, 9, 9, 6, 4, 0, 7, 4, 4, 11, 8, 9, 8, 24
+                    ]
+                }, {
+                    "name": "Italy",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 1, 4, 4, 5, 4, 2, 2, 5, 14, 20, 10, 13, 11, 5, 8
+                    ]
+                }, {
+                    "name": "Canada",
+                    "data": [
+                        0, 1, 1, 7, 1, 0, 0, 3, 2, 3, 4, 3, 3, 1, 3, 2, 4, 5, 7, 13, 15, 17, 24, 26, 25
+                    ]
+                }, {
+                    "name": "Switzerland",
+                    "data": [
+                        0, 3, 1, 1, 3, 0, 0, 10, 2, 6, 2, 0, 6, 10, 5, 5, 5, 15, 3, 9, 7, 11, 14, 9, 11
+                    ]
+                }, {
+                    "name": "Great Britain",
+                    "data": [
+                        0, 4, 1, 0, 3, 0, 0, 2, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 2, 1, 2, 1, 1, 4
+                    ]
+                }, {
+                    "name": "France",
+                    "data": [
+                        0, 3, 1, 1, 1, 0, 0, 5, 1, 0, 3, 7, 9, 3, 1, 1, 3, 2, 9, 5, 8, 11, 9, 11, 15
+                    ]
+                }, {
+                    "name": "Hungary",
+                    "data": [
+                        0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "Unified Team",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "Soviet Union",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 21, 25, 13, 16, 27, 22, 25, 29, 0, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "Russia",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 18, 13, 22, 15, 33
+                    ]
+                }, {
+                    "name": "Japan",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 3, 0, 1, 1, 1, 7, 5, 10, 2, 1, 5, 8
+                    ]
+                }, {
+                    "name": "Czechoslovakia",
+                    "data": [
+                        0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 4, 3, 1, 1, 6, 3, 3, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "Poland",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 6, 6
+                    ]
+                }, {
+                    "name": "Spain",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "China",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 8, 8, 11, 11, 9
+                    ]
+                }, {
+                    "name": "South Korea",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 6, 4, 11, 14, 8
+                    ]
+                }, {
+                    "name": "Czech Republic",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 4, 6, 8
+                    ]
+                }, {
+                    "name": "Belarus",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1, 3, 6
+                    ]
+                }, {
+                    "name": "Kazakhstan",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2, 0, 0, 1, 1
+                    ]
+                }, {
+                    "name": "Bulgaria",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 3, 1, 0, 0
+                    ]
+                }, {
+                    "name": "Denmark",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "Ukraine",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 2, 0, 2
+                    ]
+                }, {
+                    "name": "Australia",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3
+                    ]
+                }, {
+                    "name": "Belgium",
+                    "data": [
+                        0, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "Romania",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "Liechtenstein",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 2, 1, 0, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "Yugoslavia",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "Luxembourg",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "New Zealand",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "North Korea",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0
+                    ]
+                }, {
+                    "name": "Slovakia",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1
+                    ]
+                }, {
+                    "name": "Croatia",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 3, 3, 1
+                    ]
+                }, {
+                    "name": "Slovenia",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1, 0, 3, 8
+                    ]
+                }, {
+                    "name": "Latvia",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 4
+                    ]
+                }, {
+                    "name": "Estonia",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1, 0
+                    ]
+                }, {
+                    "name": "Uzbekistan",
+                    "data": [
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0
+                    ]
+                }],
+
+                exporting: {
+                    sourceWidth: 800,
+                    sourceHeight: 600
+                }
+
+            });
+        }
+    });
+</script>	

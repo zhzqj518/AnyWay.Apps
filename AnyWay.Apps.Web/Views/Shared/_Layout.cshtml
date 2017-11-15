@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>信息管理系统</title>
+    <link type="favicon" rel="shortcut icon" href="~/favicon.ico" />
+    <script type="text/javascript" src="~/Scripts/miniui/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/miniui/miniui.js"></script>
+    <script src="~/Scripts/miniui/checkmodel.js"></script>
+    <script src="~/Scripts/jquery/jquery.md5.js"></script>
+    <script src="~/Scripts/urlhelper.js"></script>
+    <link href="~/Content/miniui/themes/default/miniui.css" rel="stylesheet" />
+    <link href="~/Content/miniui/themes/pure/skin.css" rel="stylesheet" />
+    <link href="~/Content/miniui/themes/icons.css" rel="stylesheet" />
+    <link href="~/Content/fonts/iconfont.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/css/layout.css" rel="stylesheet" />
+    @RenderSection("js", false)
+    @RenderSection("css", false)
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (typeof (mini) != undefined) {
+            var params = mini.getParams();
+
+            var href = window.location.href.indexOf("?") > 0 ? window.location.href.substr(0, window.location.href.indexOf("?")) : window.location.href;
+            var rootpath = urlhelper.getRootPath();
+            var menulink = href.substr(rootpath.length + 1, href.length - rootpath.length);
+            if (menulink.substr(menulink.length - 1, 1) == "/") {
+                menulink = menulink.substr(0, menulink.length - 1);
+            }
+
+            var data_params = {};
+            data_params.menuId = "";
+            data_params.menuLink = menulink;
+
+            if (params.hasOwnProperty("menuid")) {
+                data_params.menuId = params["menuid"];
+            }
+
+            mini.mask({
+                el: document.body,
+                cls: 'mini-mask-loading',
+                html: "正在获取权限"
+            });
+
+            $.ajax({
+                url: urlhelper.getRootPath() + "/Account/GetUserActions",
+                type: "get",
+                data: data_params,
+                success: function (text, flag, res) {
+                    var msg = JSON.parse(arguments[2].responseText);
+                    if (msg.isHaveActions) {
+                        setPageActions(msg.roleActionList);
+                    }
+                    mini.unmask();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    mini.unmask();
+                    setPageActions([]);
+                    mini.alert("获取权限失败，请重新获取！");
+                }
+            });
+        }
+
+        function setPageActions(actions) {
+            if (actions == null) {
+                return;
+            }
+
+            var allComponents = mini.getComponents();
+
+            for (var i = 0; i < allComponents.length; i++) {
+                for (var j = 0; j < actions.length; j++) {
+                    if (allComponents[i].id == actions[j].ActionBtnId) {
+                        if (actions[j].ActionIsCheck != 1) {
+                            allComponents[i].set({ enabled: false, readonly: true });
+                            break;
+                        }
+                    }
+                }
+               
+            }
+        }
+    });
+</script>

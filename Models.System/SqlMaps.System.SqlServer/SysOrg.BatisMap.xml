@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SysOrg"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="SysOrg" type="Models.System.SysOrg" />
+    <typeAlias alias="SysOrgQuery" type="Models.System.ViewModel.SysOrgQuery"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="FullResultMap" class="SysOrg">
+      <result property="OrgId" column="ORGID" dbType="VarChar"/>
+      <result property="OrgParentId" column="ORGPARENTID" dbType="VarChar"/>
+      <result property="OrgName" column="ORGNAME" dbType="VarChar"/>
+      <result property="OrgCode" column="ORGCODE" dbType="VarChar"/>
+      <result property="OrgIcon" column="ORGICON" dbType="VarChar"/>
+      <result property="OrgIconPath" column="ORGICONPATH" dbType="VarChar"/>
+      <result property="OrgType" column="ORGTYPE" dbType="VarChar"/>
+      <result property="OrgIsValid" column="ORGISVALID" dbType="Decimal"/>
+      <result property="OrgNo" column="ORGNO" dbType="Decimal"/>
+      <result property="OrgRemark" column="ORGREMARK" dbType="Decimal"/>
+      <result property="OrgCreateBy" column="ORGCREATEBY" dbType="DateTime"/>
+      <result property="OrgCreateTime" column="ORGCREATETIME" dbType="DateTime"/>
+      <result property="OrgUpdateBy" column="ORGUPDATEBY" dbType="VarChar"/>
+      <result property="OrgUpdateTime" column="ORGUPDATETIME" dbType="DateTime"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="GetList" resultMap="FullResultMap" parameterClass="SysOrgQuery">
+      SELECT *
+      FROM TB_SYS_ORG
+      WHERE 1 = 1
+      <dynamic>
+        <isNotEmpty property="SortBy"  prepend="Order By">
+          $SortBy$ $SortOrder$
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="GetById" resultMap="FullResultMap" parameterClass="SysOrg">
+      SELECT *
+      FROM TB_SYS_ORG
+      WHERE (ORGID = #OrgId#)
+    </select>
+
+    <insert id="Insert" parameterClass="SysOrg">
+      INSERT INTO TB_SYS_ORG (
+      ORGID
+      , ORGPARENTID
+      , ORGNAME
+      , ORGCODE
+      , ORGICON
+      , ORGICONPATH
+      , ORGTYPE
+      , ORGISVALID
+      , ORGNO
+      , ORGREMARK
+      , ORGCREATEBY
+      , ORGCREATETIME
+      , ORGUPDATEBY
+      , ORGUPDATETIME
+      ) VALUES (
+      #OrgId#
+      , #OrgParentId#
+      , #OrgName#
+      , #OrgCode#
+      , #OrgIcon#
+      , #OrgIconPath#
+      , #OrgType#
+      , #OrgIsValid#
+      , #OrgNo#
+      , #OrgRemark#
+      , #OrgCreateBy#
+      , #OrgCreateTime#
+      , #OrgUpdateBy#
+      , #OrgUpdateTime#
+      )
+    </insert>
+
+    <update id="Update" parameterClass="SysOrg">
+      UPDATE TB_SYS_ORG SET
+      ORGPARENTID = #OrgParentId#
+      , ORGNAME = #OrgName#
+      , ORGCODE = #OrgCode#
+      , ORGICON = #OrgIcon#
+      , ORGICONPATH = #OrgIconPath#
+      , ORGTYPE = #OrgType#
+      , ORGISVALID = #OrgIsValid#
+      , ORGNO = #OrgNo#
+      , ORGREMARK = #OrgRemark#
+      , ORGCREATEBY = #OrgCreateBy#
+      , ORGCREATETIME = #OrgCreateTime#
+      , ORGUPDATEBY = #OrgUpdateBy#
+      , ORGUPDATETIME = #OrgUpdateTime#
+      WHERE
+      (ORGID = #OrgId#)
+    </update>
+
+    <delete id="Delete" parameterClass="SysOrg">
+      DELETE FROM TB_SYS_ORG
+      WHERE
+      (ORGID = #OrgId#)
+    </delete>
+  </statements>
+</sqlMap>

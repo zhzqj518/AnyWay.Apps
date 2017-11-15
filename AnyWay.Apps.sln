@@ -1,0 +1,126 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.AnyWay.Apps.Core", "01.AnyWay.Apps.Core", "{7EE70B6B-B7B9-4CA0-A9FB-339909334BC7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.AnyWay.Apps.BizManager", "03.AnyWay.Apps.BizManager", "{D3F88542-DD89-409B-9A6E-16970FF7B2E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.AnyWay.Apps.Repository", "04.AnyWay.Apps.Repository", "{9631067C-4F42-4793-AADC-341D78259AD3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.AnyWay.Apps.Web", "02.AnyWay.Apps.Web", "{1EF8E8E3-2002-4351-9F86-C6954CECA1D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06.AnyWay.Apps.Scripts", "06.AnyWay.Apps.Scripts", "{C1564F72-8934-484F-8901-C17196997730}"
+	ProjectSection(SolutionItems) = preProject
+		Oracle-TB_SYS_LOG-Create.sql = Oracle-TB_SYS_LOG-Create.sql
+		Oracle-TB_SYS_Menu-Create.sql = Oracle-TB_SYS_Menu-Create.sql
+		SqlServer-TB_Sys_Log-Create.sql = SqlServer-TB_Sys_Log-Create.sql
+		SqlServer-TB_Sys_Menu-Create.sql = SqlServer-TB_Sys_Menu-Create.sql
+		SqlServer-TB_Sys_User-Create.sql = SqlServer-TB_Sys_User-Create.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05.AnyWay.Apps.Models", "05.AnyWay.Apps.Models", "{1618B90D-07BC-4447-832D-59D8FD725B65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnyWay.Apps.Web", "AnyWay.Apps.Web\AnyWay.Apps.Web.csproj", "{3B95619F-8810-4BD1-A4DE-FD114A6995B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System", "System", "{AB77BA04-0D3A-4232-8EBC-D014CA6FA446}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System", "System", "{0E97E22D-4BE8-4C81-AB67-6EF93735B633}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISystemBizManager", "ISystemBizManager\ISystemBizManager.csproj", "{4CC1CC5F-9FF9-4520-9A00-F48F80885A74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemBizManager", "SystemBizManager\SystemBizManager.csproj", "{0F837F16-C6B3-4E65-A945-83394B10FA66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnyWay.Apps.Core", "AnyWay.Apps.Core\AnyWay.Apps.Core.csproj", "{11BD915F-B26B-428C-8EB6-A08835D05307}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00.AnyWay.Apps.Libs", "00.AnyWay.Apps.Libs", "{E2167C35-496D-4C24-8C07-C5DAC9AC5C88}"
+	ProjectSection(SolutionItems) = preProject
+		AnyWay.Apps.Libs\Castle.DynamicProxy.dll = AnyWay.Apps.Libs\Castle.DynamicProxy.dll
+		AnyWay.Apps.Libs\IBatisNet.Common.dll = AnyWay.Apps.Libs\IBatisNet.Common.dll
+		AnyWay.Apps.Libs\IBatisNet.Common.Logging.Log4Net.dll = AnyWay.Apps.Libs\IBatisNet.Common.Logging.Log4Net.dll
+		AnyWay.Apps.Libs\IBatisNet.DataAccess.dll = AnyWay.Apps.Libs\IBatisNet.DataAccess.dll
+		AnyWay.Apps.Libs\IBatisNet.DataMapper.dll = AnyWay.Apps.Libs\IBatisNet.DataMapper.dll
+		AnyWay.Apps.Libs\Newtonsoft.Json.dll = AnyWay.Apps.Libs\Newtonsoft.Json.dll
+		AnyWay.Apps.Libs\System.Web.Http.dll = AnyWay.Apps.Libs\System.Web.Http.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models.System", "Models.System\Models.System.csproj", "{ACAA896E-8E96-44E1-AA05-C8210ED60DD8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07.AnyWay.Apps.Deploy", "07.AnyWay.Apps.Deploy", "{D63F4F4E-D3CC-4ABF-B525-5401C67BF023}"
+	ProjectSection(SolutionItems) = preProject
+		echarts引用百度地图步骤.txt = echarts引用百度地图步骤.txt
+		jscss在线压缩.txt = jscss在线压缩.txt
+		..\..\..\..\Users\Michael\Desktop\解决Web部署 svgwoffwoff2字体 404错误.docx = ..\..\..\..\Users\Michael\Desktop\解决Web部署 svgwoffwoff2字体 404错误.docx
+		项目中需要在config或者需要传入参数注释.xml = 项目中需要在config或者需要传入参数注释.xml
+		项目开发注意事项.txt = 项目开发注意事项.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISystemRepository", "ISystemRepository\ISystemRepository.csproj", "{1673213B-31A4-4183-B6E2-1210739DE744}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemRepository", "SystemRepository\SystemRepository.csproj", "{B449DD12-B208-4498-A73D-B8A7F0CF3205}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnyWay.Apps.WebApi", "AnyWay.Apps.WebApi\AnyWay.Apps.WebApi.csproj", "{C69945B9-6945-4709-84C7-F4BC59330655}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnyWay.Apps.Persistence", "AnyWay.Apps.Persistence\AnyWay.Apps.Persistence.csproj", "{62F91082-53F0-4B85-A688-CF4D11F002A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B95619F-8810-4BD1-A4DE-FD114A6995B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B95619F-8810-4BD1-A4DE-FD114A6995B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B95619F-8810-4BD1-A4DE-FD114A6995B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B95619F-8810-4BD1-A4DE-FD114A6995B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CC1CC5F-9FF9-4520-9A00-F48F80885A74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CC1CC5F-9FF9-4520-9A00-F48F80885A74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CC1CC5F-9FF9-4520-9A00-F48F80885A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CC1CC5F-9FF9-4520-9A00-F48F80885A74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F837F16-C6B3-4E65-A945-83394B10FA66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F837F16-C6B3-4E65-A945-83394B10FA66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F837F16-C6B3-4E65-A945-83394B10FA66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F837F16-C6B3-4E65-A945-83394B10FA66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11BD915F-B26B-428C-8EB6-A08835D05307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11BD915F-B26B-428C-8EB6-A08835D05307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11BD915F-B26B-428C-8EB6-A08835D05307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11BD915F-B26B-428C-8EB6-A08835D05307}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACAA896E-8E96-44E1-AA05-C8210ED60DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACAA896E-8E96-44E1-AA05-C8210ED60DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACAA896E-8E96-44E1-AA05-C8210ED60DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACAA896E-8E96-44E1-AA05-C8210ED60DD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1673213B-31A4-4183-B6E2-1210739DE744}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1673213B-31A4-4183-B6E2-1210739DE744}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1673213B-31A4-4183-B6E2-1210739DE744}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1673213B-31A4-4183-B6E2-1210739DE744}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B449DD12-B208-4498-A73D-B8A7F0CF3205}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B449DD12-B208-4498-A73D-B8A7F0CF3205}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B449DD12-B208-4498-A73D-B8A7F0CF3205}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B449DD12-B208-4498-A73D-B8A7F0CF3205}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C69945B9-6945-4709-84C7-F4BC59330655}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C69945B9-6945-4709-84C7-F4BC59330655}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C69945B9-6945-4709-84C7-F4BC59330655}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C69945B9-6945-4709-84C7-F4BC59330655}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62F91082-53F0-4B85-A688-CF4D11F002A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62F91082-53F0-4B85-A688-CF4D11F002A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62F91082-53F0-4B85-A688-CF4D11F002A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62F91082-53F0-4B85-A688-CF4D11F002A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3B95619F-8810-4BD1-A4DE-FD114A6995B0} = {1EF8E8E3-2002-4351-9F86-C6954CECA1D2}
+		{AB77BA04-0D3A-4232-8EBC-D014CA6FA446} = {D3F88542-DD89-409B-9A6E-16970FF7B2E7}
+		{0E97E22D-4BE8-4C81-AB67-6EF93735B633} = {9631067C-4F42-4793-AADC-341D78259AD3}
+		{4CC1CC5F-9FF9-4520-9A00-F48F80885A74} = {AB77BA04-0D3A-4232-8EBC-D014CA6FA446}
+		{0F837F16-C6B3-4E65-A945-83394B10FA66} = {AB77BA04-0D3A-4232-8EBC-D014CA6FA446}
+		{11BD915F-B26B-428C-8EB6-A08835D05307} = {7EE70B6B-B7B9-4CA0-A9FB-339909334BC7}
+		{ACAA896E-8E96-44E1-AA05-C8210ED60DD8} = {1618B90D-07BC-4447-832D-59D8FD725B65}
+		{1673213B-31A4-4183-B6E2-1210739DE744} = {0E97E22D-4BE8-4C81-AB67-6EF93735B633}
+		{B449DD12-B208-4498-A73D-B8A7F0CF3205} = {0E97E22D-4BE8-4C81-AB67-6EF93735B633}
+		{C69945B9-6945-4709-84C7-F4BC59330655} = {1EF8E8E3-2002-4351-9F86-C6954CECA1D2}
+		{62F91082-53F0-4B85-A688-CF4D11F002A7} = {7EE70B6B-B7B9-4CA0-A9FB-339909334BC7}
+	EndGlobalSection
+EndGlobal

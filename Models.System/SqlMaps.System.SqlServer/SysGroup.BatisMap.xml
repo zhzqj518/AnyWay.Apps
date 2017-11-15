@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SysGroup"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="SysGroup" type="Models.System.SysGroup" />
+    <typeAlias alias="SysGroupQuery" type="Models.System.ViewModel.SysGroupQuery"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="FullResultMap" class="SysGroup">
+      <result property="GroupId" column="GROUPID" dbType="VarChar"/>
+      <result property="GroupName" column="GROUPNAME" dbType="VarChar"/>
+      <result property="GroupType" column="GROUPTYPE" dbType="VarChar"/>
+      <result property="GroupIsValid" column="GROUPISVALID" dbType="Decimal"/>
+      <result property="GroupRemark" column="GROUPREMARK" dbType="VarChar"/>
+      <result property="GroupCreateBy" column="GROUPCREATEBY" dbType="VarChar"/>
+      <result property="GroupCreateTime" column="GROUPCREATETIME" dbType="DateTime"/>
+      <result property="GroupUpdateBy" column="GROUPUPDATEBY" dbType="VarChar"/>
+      <result property="GroupUpdateTime" column="GROUPUPDATETIME" dbType="DateTime"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="GetList" resultMap="FullResultMap" parameterClass="SysGroupQuery">
+      SELECT *
+      FROM TB_SYS_GROUP
+      WHERE 1 = 1
+      <dynamic>
+        <isNotEmpty property="GroupType" prepend="AND">
+          GROUPTYPE = #GroupType#
+        </isNotEmpty>
+        <isNotEmpty property="GroupName" prepend="AND">
+          GROUPNAME LIKE '%'+ #GroupName# +'%'
+        </isNotEmpty>
+        <isNotEmpty property="SortBy"  prepend="Order By">
+          $SortBy$ $SortOrder$
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="GetListCnt" resultClass="System.Int32" parameterClass="SysGroupQuery">
+      SELECT COUNT(1)
+      FROM TB_SYS_GROUP
+      WHERE 1 = 1
+      <dynamic>
+        <isNotEmpty property="GroupType" prepend="AND">
+          GROUPTYPE = #GroupType#
+        </isNotEmpty>
+        <isNotEmpty property="GroupName" prepend="AND">
+          GROUPNAME LIKE '%'+ #GroupName# +'%'
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="GetById" resultMap="FullResultMap" parameterClass="SysGroup">
+      SELECT *
+      FROM TB_SYS_GROUP
+      WHERE (GROUPID = #GroupId#)
+    </select>
+
+    <insert id="Insert" parameterClass="SysGroup">
+      INSERT INTO TB_SYS_GROUP (
+      GROUPID
+      , GROUPNAME
+      , GROUPTYPE
+      , GROUPISVALID
+      , GROUPREMARK
+      , GROUPCREATEBY
+      , GROUPCREATETIME
+      , GROUPUPDATEBY
+      , GROUPUPDATETIME
+      ) VALUES (
+      #GroupId#
+      , #GroupName#
+      , #GroupType#
+      , #GroupIsValid#
+      , #GroupRemark#
+      , #GroupCreateBy#
+      , #GroupCreateTime#
+      , #GroupUpdateBy#
+      , #GroupUpdateTime#
+      )
+    </insert>
+
+    <update id="Update" parameterClass="SysGroup">
+      UPDATE TB_SYS_GROUP SET
+      GROUPNAME = #GroupName#
+      , GROUPTYPE = #GroupType#
+      , GROUPISVALID = #GroupIsValid#
+      , GROUPREMARK = #GroupRemark#
+      , GROUPCREATEBY = #GroupCreateBy#
+      , GROUPCREATETIME = #GroupCreateTime#
+      , GROUPUPDATEBY = #GroupUpdateBy#
+      , GROUPUPDATETIME = #GroupUpdateTime#
+      WHERE
+      (GROUPID = #GroupId#)
+    </update>
+
+    <delete id="Delete" parameterClass="SysGroup">
+      DELETE FROM TB_SYS_GROUP
+      WHERE
+      (GROUPID = #GroupId#)
+    </delete>
+  </statements>
+</sqlMap>

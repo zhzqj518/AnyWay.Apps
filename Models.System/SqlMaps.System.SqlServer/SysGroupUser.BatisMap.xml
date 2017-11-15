@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SysGroupUser"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="SysGroupUser" type="Models.System.SysGroupUser" />
+    <typeAlias alias="SysGroupUserQuery" type="Models.System.ViewModel.SysGroupUserQuery"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="FullResultMap" class="SysGroupUser">
+      <result property="GroupId" column="GROUPID" dbType="VarChar"/>
+      <result property="UserId" column="USERID" dbType="VarChar"/>
+    </resultMap>
+
+    <resultMap id="SysGroupUserMap" class="SysUser">
+      <result property="UserId" column="USERID" dbType="VarChar"/>
+      <result property="UserName" column="USERNAME" dbType="VarChar"/>
+      <result property="UserLoginName" column="USERLOGINNAME" dbType="VarChar"/>
+      <result property="UserSSOName" column="USERSSONAME" dbType="VarChar"/>
+      <result property="UserOrgID" column="USERORGID" dbType="VarChar"/>
+      <result property="UserPwd" column="USERPWD" dbType="VarChar"/>
+      <result property="UserSex" column="USERSEX" dbType="VarChar"/>
+      <result property="UserMail" column="USERMAIL" dbType="VarChar"/>
+      <result property="UserMobile" column="USERMOBILE" dbType="VarChar"/>
+      <result property="UserTel" column="USERTEL" dbType="VarChar"/>
+      <result property="UserType" column="USERTYPE" dbType="VarChar"/>
+      <result property="UserTicketID" column="USERTICKETID" dbType="VarChar"/>
+      <result property="UserIsEmailVerificate" column="USERISEMAILVERIFICATE" dbType="Decimal"/>
+      <result property="UserEmailVerificationCode" column="USEREMAILVERIFICATIONCODE" dbType="VarChar"/>
+      <result property="UserIsSMSVerificate" column="USERISSMSVERIFICATE" dbType="Decimal"/>
+      <result property="UserSMSVerificationCode" column="USERSMSVERIFICATIONCODE" dbType="VarChar"/>
+      <result property="UserRemark" column="USERREMARK" dbType="VarChar"/>
+      <result property="UserIsValid" column="USERISVALID" dbType="Decimal"/>
+      <result property="UserCreateBy" column="USERCREATEBY" dbType="VarChar"/>
+      <result property="UserCreateTime" column="USERCREATETIME" dbType="DateTime"/>
+      <result property="UserUpdateBy" column="USERUPDATEBY" dbType="VarChar"/>
+      <result property="UserUpdateTime" column="USERUPDATETIME" dbType="DateTime"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="GetUnAssignUserListCnt" resultClass="System.Int32"  parameterClass="SysGroupUserQuery">
+      SELECT COUNT(1)
+      FROM TB_SYS_USER
+      WHERE USERID NOT IN (SELECT USERID
+      FROM TB_SYS_GROUP_USER
+      WHERE GROUPID = #GroupId#)
+      <dynamic>
+        <isNotEmpty property="UserName"  prepend="AND">
+          USERNAME LIKE '%' + #UserName# + '%' OR USERLOGINNAME LIKE '%' + #UserName# + '%'
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="GetUnAssignUserList" resultMap="SysGroupUserMap"  parameterClass="SysGroupUserQuery">
+      SELECT *
+      FROM TB_SYS_USER
+      WHERE USERID NOT IN (SELECT USERID
+      FROM TB_SYS_GROUP_USER
+      WHERE GROUPID = #GroupId#)
+      <dynamic>
+        <isNotEmpty property="UserName"  prepend="AND">
+          USERNAME LIKE '%' + #UserName# + '%' OR USERLOGINNAME LIKE '%' + #UserName# + '%'
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="GetAssignUserListCnt" resultClass="System.Int32"  parameterClass="SysGroupUserQuery">
+      SELECT COUNT(1)
+      FROM TB_SYS_USER
+      WHERE USERID IN (SELECT USERID
+      FROM TB_SYS_GROUP_USER
+      WHERE GROUPID = #GroupId#)
+      <dynamic>
+        <isNotEmpty property="UserName"  prepend="AND">
+          USERNAME LIKE '%' + #UserName# + '%' OR USERLOGINNAME LIKE '%' + #UserName# + '%'
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="GetAssignUserList" resultMap="SysGroupUserMap"  parameterClass="SysGroupUserQuery">
+      SELECT *
+      FROM TB_SYS_USER
+      WHERE USERID IN (SELECT USERID
+      FROM TB_SYS_GROUP_USER
+      WHERE GROUPID = #GroupId#)
+      <dynamic>
+        <isNotEmpty property="UserName"  prepend="AND">
+          USERNAME LIKE '%' + #UserName# + '%' OR USERLOGINNAME LIKE '%' + #UserName# + '%'
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="GetById" resultMap="FullResultMap" parameterClass="SysGroupUser">
+      SELECT *
+      FROM TB_SYS_GROUP_USER
+      WHERE (GROUPID = #GroupId# AND USERID = #UserId#)
+    </select>
+
+    <insert id="Insert" parameterClass="SysGroupUser">
+      INSERT INTO TB_SYS_GROUP_USER (
+      GROUPID
+      , USERID
+      ) VALUES (
+      #GroupId#
+      , #UserId#
+      )
+    </insert>
+
+    <delete id="Delete" parameterClass="SysGroupUser">
+      DELETE FROM TB_SYS_GROUP_USER
+      WHERE
+      (GROUPID = #GroupId# AND USERID = #UserId#)
+    </delete>
+  </statements>
+</sqlMap>

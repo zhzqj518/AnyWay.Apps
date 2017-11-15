@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Projects>
+  <Project Name="AnyWay.Apps.Core">
+    <Dependency>
+      <Dir>Attribute/PageAuthorizeAttribute</Dir>
+      <Params>
+        <Param Name="AuthErrorUrl">
+          <Type>Web.config/App.config</Type>
+          <Simple>
+            <add key="AuthErrorUrl" value="/System/SysAuthority/AuthError"/>
+          </Simple>
+        </Param>
+        <Param Name="SessionTimeoutUrl">
+          <Type>Web.config/App.config</Type>
+          <Simple>
+            <add key="SessionTimeoutUrl" value="~/System/SysAuthority/SessionTimeout"/>
+          </Simple>
+        </Param>
+      </Params>
+    </Dependency>
+
+    <Dependency>
+      <Dir>Attribute/PageHandleErrorAttribute</Dir>
+      <Params>
+        <Param Name="500ErrorUrl">
+          <Type>Web.config/App.config</Type>
+          <Simple>
+            <add key="500ErrorUrl" value="~/System/SysException/Exception500?ErrorMsg={0}&amp;ErrorUrl={1}"/>
+          </Simple>
+        </Param>
+      </Params>
+    </Dependency>
+
+    <Dependency>
+      <Dir>Unity/DependencyRegisterType</Dir>
+      <Params>
+        <Param Name="strConfigFile">
+          <Type>Call Container</Type>
+          <Simple>
+            DependencyRegisterType.Container(ref container, HttpContext.Current.Server.MapPath("~/Config/Unity/Unity.config"));
+          </Simple>
+        </Param>
+      </Params>
+    </Dependency>
+
+    <Dependency>
+      <Dir>MyBatis/MyBatisMapper</Dir>
+      <Params>
+        <Param Name="DbType">
+          <Type>Web.config/App.config</Type>
+          <Simple>
+            <add key="500ErrorUrl" value="~/System/SysException/Exception500?ErrorMsg={0}&amp;ErrorUrl={1}"/>
+          </Simple>
+        </Param>
+        <Param Name="MyBatisCfg">
+          <Type>Web.config/App.config</Type>
+          <Simple>
+            <add key="DbType" value="SqlServer"/>
+          </Simple>
+        </Param>
+      </Params>
+    </Dependency>
+
+    <Dependency>
+      <Dir>Transaction/SqlTransactionFactory</Dir>
+      <Params>
+        <Param Name="DataMapper">
+          <Type>Web.config/App.config</Type>
+          <Simple>
+            <add key="DataMapper" value="MyBatis"/>
+          </Simple>
+        </Param>
+      </Params>
+    </Dependency>
+  </Project>
+</Projects>

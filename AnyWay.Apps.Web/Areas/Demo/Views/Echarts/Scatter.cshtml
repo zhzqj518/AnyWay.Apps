@@ -1,0 +1,732 @@
+﻿@section js{
+    <script src="~/Scripts/echarts/echarts.js"></script>
+<script src="~/Scripts/echarts/ecStat.min.js"></script>
+}
+<div class="mini-fit">
+    <div style="float:left;">
+        <div id="chart0" style="width:600px;height:380px"></div>
+    </div>
+    <div style="float:left">
+        <div id="chart1" style="width:600px;height:380px"></div>
+    </div>
+    <div style="float:left">
+        <div id="chart2" style="width:600px;height:380px"></div>
+    </div>
+    <div style="float:left">
+        <div id="chart3" style="width:600px;height:380px"></div>
+    </div>
+    <div style="float:left">
+        <div id="chart4" style="width:600px;height:380px"></div>
+    </div>
+    <div style="float:left">
+        <div id="chart5" style="width:600px;height:380px"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        createChart0();
+        createChart1();
+        createChart2();
+        createChart3();
+        createChart4();
+        createChart5();
+
+        function createChart0() {
+            var app = echarts.init(document.getElementById("chart0"));
+            var dataAll = [
+                [
+                    [10.0, 8.04],
+                    [8.0, 6.95],
+                    [13.0, 7.58],
+                    [9.0, 8.81],
+                    [11.0, 8.33],
+                    [14.0, 9.96],
+                    [6.0, 7.24],
+                    [4.0, 4.26],
+                    [12.0, 10.84],
+                    [7.0, 4.82],
+                    [5.0, 5.68]
+                ],
+                [
+                    [10.0, 9.14],
+                    [8.0, 8.14],
+                    [13.0, 8.74],
+                    [9.0, 8.77],
+                    [11.0, 9.26],
+                    [14.0, 8.10],
+                    [6.0, 6.13],
+                    [4.0, 3.10],
+                    [12.0, 9.13],
+                    [7.0, 7.26],
+                    [5.0, 4.74]
+                ],
+                [
+                    [10.0, 7.46],
+                    [8.0, 6.77],
+                    [13.0, 12.74],
+                    [9.0, 7.11],
+                    [11.0, 7.81],
+                    [14.0, 8.84],
+                    [6.0, 6.08],
+                    [4.0, 5.39],
+                    [12.0, 8.15],
+                    [7.0, 6.42],
+                    [5.0, 5.73]
+                ],
+                [
+                    [8.0, 6.58],
+                    [8.0, 5.76],
+                    [8.0, 7.71],
+                    [8.0, 8.84],
+                    [8.0, 8.47],
+                    [8.0, 7.04],
+                    [8.0, 5.25],
+                    [19.0, 12.50],
+                    [8.0, 5.56],
+                    [8.0, 7.91],
+                    [8.0, 6.89]
+                ]
+            ];
+
+            var markLineOpt = {
+                animation: false,
+                label: {
+                    normal: {
+                        formatter: 'y = 0.5 * x + 3',
+                        textStyle: {
+                            align: 'right'
+                        }
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        type: 'solid'
+                    }
+                },
+                tooltip: {
+                    formatter: 'y = 0.5 * x + 3'
+                },
+                data: [[{
+                    coord: [0, 3],
+                    symbol: 'none'
+                }, {
+                    coord: [20, 13],
+                    symbol: 'none'
+                }]]
+            };
+
+            option = {
+                title: {
+                    text: 'Anscombe\'s quartet',
+                    x: 'center',
+                    y: 0
+                },
+                grid: [
+                    { x: '7%', y: '7%', width: '38%', height: '38%' },
+                    { x2: '7%', y: '7%', width: '38%', height: '38%' },
+                    { x: '7%', y2: '7%', width: '38%', height: '38%' },
+                    { x2: '7%', y2: '7%', width: '38%', height: '38%' }
+                ],
+                tooltip: {
+                    formatter: 'Group {a}: ({c})'
+                },
+                xAxis: [
+                    { gridIndex: 0, min: 0, max: 20 },
+                    { gridIndex: 1, min: 0, max: 20 },
+                    { gridIndex: 2, min: 0, max: 20 },
+                    { gridIndex: 3, min: 0, max: 20 }
+                ],
+                yAxis: [
+                    { gridIndex: 0, min: 0, max: 15 },
+                    { gridIndex: 1, min: 0, max: 15 },
+                    { gridIndex: 2, min: 0, max: 15 },
+                    { gridIndex: 3, min: 0, max: 15 }
+                ],
+                series: [
+                    {
+                        name: 'I',
+                        type: 'scatter',
+                        xAxisIndex: 0,
+                        yAxisIndex: 0,
+                        data: dataAll[0],
+                        markLine: markLineOpt
+                    },
+                    {
+                        name: 'II',
+                        type: 'scatter',
+                        xAxisIndex: 1,
+                        yAxisIndex: 1,
+                        data: dataAll[1],
+                        markLine: markLineOpt
+                    },
+                    {
+                        name: 'III',
+                        type: 'scatter',
+                        xAxisIndex: 2,
+                        yAxisIndex: 2,
+                        data: dataAll[2],
+                        markLine: markLineOpt
+                    },
+                    {
+                        name: 'IV',
+                        type: 'scatter',
+                        xAxisIndex: 3,
+                        yAxisIndex: 3,
+                        data: dataAll[3],
+                        markLine: markLineOpt
+                    }
+                ]
+            };
+            app.setOption(option);
+        }
+
+        function createChart1() {
+            var app = echarts.init(document.getElementById("chart1"));
+            option = {
+                title: {
+                    text: '大规模散点图'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    showDelay: 0,
+                    axisPointer: {
+                        show: true,
+                        type: 'cross',
+                        lineStyle: {
+                            type: 'dashed',
+                            width: 1
+                        }
+                    },
+                    zlevel: 1
+                },
+                legend: {
+                    data: ['sin', 'cos']
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: { show: true },
+                        dataZoom: { show: true },
+                        dataView: { show: true, readOnly: false },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
+                },
+                xAxis: [
+                    {
+                        type: 'value',
+                        scale: true
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        scale: true
+                    }
+                ],
+                series: [
+                    {
+                        name: 'sin',
+                        type: 'scatter',
+                        large: true,
+                        symbolSize: 3,
+                        data: (function () {
+                            var d = [];
+                            var len = 10000;
+                            var x = 0;
+                            while (len--) {
+                                x = (Math.random() * 10).toFixed(3) - 0;
+                                d.push([
+                                    x,
+                                    //Math.random() * 10
+                                    (Math.sin(x) - x * (len % 2 ? 0.1 : -0.1) * Math.random()).toFixed(3) - 0
+                                ]);
+                            }
+                            //console.log(d)
+                            return d;
+                        })()
+                    },
+                    {
+                        name: 'cos',
+                        type: 'scatter',
+                        large: true,
+                        symbolSize: 2,
+                        data: (function () {
+                            var d = [];
+                            var len = 20000;
+                            var x = 0;
+                            while (len--) {
+                                x = (Math.random() * 10).toFixed(3) - 0;
+                                d.push([
+                                    x,
+                                    //Math.random() * 10
+                                    (Math.cos(x) - x * (len % 2 ? 0.1 : -0.1) * Math.random()).toFixed(3) - 0
+                                ]);
+                            }
+                            //console.log(d)
+                            return d;
+                        })()
+                    }
+                ]
+            };
+
+            app.setOption(option);
+        }
+
+        function createChart2() {
+            var app = echarts.init(document.getElementById("chart2"));
+            app.title = '气泡图';
+
+            var data = [
+                [[28604, 77, 17096869, 'Australia', 1990], [31163, 77.4, 27662440, 'Canada', 1990], [1516, 68, 1154605773, 'China', 1990], [13670, 74.7, 10582082, 'Cuba', 1990], [28599, 75, 4986705, 'Finland', 1990], [29476, 77.1, 56943299, 'France', 1990], [31476, 75.4, 78958237, 'Germany', 1990], [28666, 78.1, 254830, 'Iceland', 1990], [1777, 57.7, 870601776, 'India', 1990], [29550, 79.1, 122249285, 'Japan', 1990], [2076, 67.9, 20194354, 'North Korea', 1990], [12087, 72, 42972254, 'South Korea', 1990], [24021, 75.4, 3397534, 'New Zealand', 1990], [43296, 76.8, 4240375, 'Norway', 1990], [10088, 70.8, 38195258, 'Poland', 1990], [19349, 69.6, 147568552, 'Russia', 1990], [10670, 67.3, 53994605, 'Turkey', 1990], [26424, 75.7, 57110117, 'United Kingdom', 1990], [37062, 75.4, 252847810, 'United States', 1990]],
+                [[44056, 81.8, 23968973, 'Australia', 2015], [43294, 81.7, 35939927, 'Canada', 2015], [13334, 76.9, 1376048943, 'China', 2015], [21291, 78.5, 11389562, 'Cuba', 2015], [38923, 80.8, 5503457, 'Finland', 2015], [37599, 81.9, 64395345, 'France', 2015], [44053, 81.1, 80688545, 'Germany', 2015], [42182, 82.8, 329425, 'Iceland', 2015], [5903, 66.8, 1311050527, 'India', 2015], [36162, 83.5, 126573481, 'Japan', 2015], [1390, 71.4, 25155317, 'North Korea', 2015], [34644, 80.7, 50293439, 'South Korea', 2015], [34186, 80.6, 4528526, 'New Zealand', 2015], [64304, 81.6, 5210967, 'Norway', 2015], [24787, 77.3, 38611794, 'Poland', 2015], [23038, 73.13, 143456918, 'Russia', 2015], [19360, 76.5, 78665830, 'Turkey', 2015], [38225, 81.4, 64715810, 'United Kingdom', 2015], [53354, 79.1, 321773631, 'United States', 2015]]
+            ];
+
+            option = {
+                backgroundColor: new echarts.graphic.RadialGradient(0.3, 0.3, 0.8, [{
+                    offset: 0,
+                    color: '#f7f8fa'
+                }, {
+                    offset: 1,
+                    color: '#cdd0d5'
+                }]),
+                title: {
+                    text: '1990 与 2015 年各国家人均寿命与 GDP'
+                },
+                legend: {
+                    right: 10,
+                    data: ['1990', '2015']
+                },
+                xAxis: {
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed'
+                        }
+                    }
+                },
+                yAxis: {
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed'
+                        }
+                    },
+                    scale: true
+                },
+                series: [{
+                    name: '1990',
+                    data: data[0],
+                    type: 'scatter',
+                    symbolSize: function (data) {
+                        return Math.sqrt(data[2]) / 5e2;
+                    },
+                    label: {
+                        emphasis: {
+                            show: true,
+                            formatter: function (param) {
+                                return param.data[3];
+                            },
+                            position: 'top'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(120, 36, 50, 0.5)',
+                            shadowOffsetY: 5,
+                            color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                                offset: 0,
+                                color: 'rgb(251, 118, 123)'
+                            }, {
+                                offset: 1,
+                                color: 'rgb(204, 46, 72)'
+                            }])
+                        }
+                    }
+                }, {
+                    name: '2015',
+                    data: data[1],
+                    type: 'scatter',
+                    symbolSize: function (data) {
+                        return Math.sqrt(data[2]) / 5e2;
+                    },
+                    label: {
+                        emphasis: {
+                            show: true,
+                            formatter: function (param) {
+                                return param.data[3];
+                            },
+                            position: 'top'
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(25, 100, 150, 0.5)',
+                            shadowOffsetY: 5,
+                            color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                                offset: 0,
+                                color: 'rgb(129, 227, 238)'
+                            }, {
+                                offset: 1,
+                                color: 'rgb(25, 183, 207)'
+                            }])
+                        }
+                    }
+                }]
+            };
+            app.setOption(option);
+        }
+
+        function createChart3() {
+            var app = echarts.init(document.getElementById("chart3"));
+
+            var hours = ['12a', '1a', '2a', '3a', '4a', '5a', '6a',
+                    '7a', '8a', '9a', '10a', '11a',
+                    '12p', '1p', '2p', '3p', '4p', '5p',
+                    '6p', '7p', '8p', '9p', '10p', '11p'];
+            var days = ['Saturday', 'Friday', 'Thursday',
+                    'Wednesday', 'Tuesday', 'Monday', 'Sunday'];
+
+            var data = [[0, 0, 5], [0, 1, 1], [0, 2, 0], [0, 3, 0], [0, 4, 0], [0, 5, 0], [0, 6, 0], [0, 7, 0], [0, 8, 0], [0, 9, 0], [0, 10, 0], [0, 11, 2], [0, 12, 4], [0, 13, 1], [0, 14, 1], [0, 15, 3], [0, 16, 4], [0, 17, 6], [0, 18, 4], [0, 19, 4], [0, 20, 3], [0, 21, 3], [0, 22, 2], [0, 23, 5], [1, 0, 7], [1, 1, 0], [1, 2, 0], [1, 3, 0], [1, 4, 0], [1, 5, 0], [1, 6, 0], [1, 7, 0], [1, 8, 0], [1, 9, 0], [1, 10, 5], [1, 11, 2], [1, 12, 2], [1, 13, 6], [1, 14, 9], [1, 15, 11], [1, 16, 6], [1, 17, 7], [1, 18, 8], [1, 19, 12], [1, 20, 5], [1, 21, 5], [1, 22, 7], [1, 23, 2], [2, 0, 1], [2, 1, 1], [2, 2, 0], [2, 3, 0], [2, 4, 0], [2, 5, 0], [2, 6, 0], [2, 7, 0], [2, 8, 0], [2, 9, 0], [2, 10, 3], [2, 11, 2], [2, 12, 1], [2, 13, 9], [2, 14, 8], [2, 15, 10], [2, 16, 6], [2, 17, 5], [2, 18, 5], [2, 19, 5], [2, 20, 7], [2, 21, 4], [2, 22, 2], [2, 23, 4], [3, 0, 7], [3, 1, 3], [3, 2, 0], [3, 3, 0], [3, 4, 0], [3, 5, 0], [3, 6, 0], [3, 7, 0], [3, 8, 1], [3, 9, 0], [3, 10, 5], [3, 11, 4], [3, 12, 7], [3, 13, 14], [3, 14, 13], [3, 15, 12], [3, 16, 9], [3, 17, 5], [3, 18, 5], [3, 19, 10], [3, 20, 6], [3, 21, 4], [3, 22, 4], [3, 23, 1], [4, 0, 1], [4, 1, 3], [4, 2, 0], [4, 3, 0], [4, 4, 0], [4, 5, 1], [4, 6, 0], [4, 7, 0], [4, 8, 0], [4, 9, 2], [4, 10, 4], [4, 11, 4], [4, 12, 2], [4, 13, 4], [4, 14, 4], [4, 15, 14], [4, 16, 12], [4, 17, 1], [4, 18, 8], [4, 19, 5], [4, 20, 3], [4, 21, 7], [4, 22, 3], [4, 23, 0], [5, 0, 2], [5, 1, 1], [5, 2, 0], [5, 3, 3], [5, 4, 0], [5, 5, 0], [5, 6, 0], [5, 7, 0], [5, 8, 2], [5, 9, 0], [5, 10, 4], [5, 11, 1], [5, 12, 5], [5, 13, 10], [5, 14, 5], [5, 15, 7], [5, 16, 11], [5, 17, 6], [5, 18, 0], [5, 19, 5], [5, 20, 3], [5, 21, 4], [5, 22, 2], [5, 23, 0], [6, 0, 1], [6, 1, 0], [6, 2, 0], [6, 3, 0], [6, 4, 0], [6, 5, 0], [6, 6, 0], [6, 7, 0], [6, 8, 0], [6, 9, 0], [6, 10, 1], [6, 11, 0], [6, 12, 2], [6, 13, 1], [6, 14, 3], [6, 15, 4], [6, 16, 0], [6, 17, 0], [6, 18, 0], [6, 19, 0], [6, 20, 1], [6, 21, 2], [6, 22, 2], [6, 23, 6]];
+            data = data.map(function (item) {
+                return [item[1], item[0], item[2]];
+            });
+
+            option = {
+                title: {
+                    text: 'Punch Card of Github',
+                    link: 'https://github.com/pissang/echarts-next/graphs/punch-card'
+                },
+                legend: {
+                    data: ['Punch Card'],
+                    left: 'right'
+                },
+                tooltip: {
+                    position: 'top',
+                    formatter: function (params) {
+                        return params.value[2] + ' commits in ' + hours[params.value[0]] + ' of ' + days[params.value[1]];
+                    }
+                },
+                grid: {
+                    left: 2,
+                    bottom: 10,
+                    right: 10,
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: hours,
+                    boundaryGap: false,
+                    splitLine: {
+                        show: true,
+                        lineStyle: {
+                            color: '#999',
+                            type: 'dashed'
+                        }
+                    },
+                    axisLine: {
+                        show: false
+                    }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: days,
+                    axisLine: {
+                        show: false
+                    }
+                },
+                series: [{
+                    name: 'Punch Card',
+                    type: 'scatter',
+                    symbolSize: function (val) {
+                        return val[2] * 2;
+                    },
+                    data: data,
+                    animationDelay: function (idx) {
+                        return idx * 5;
+                    }
+                }]
+            };
+            app.setOption(option);
+        }
+
+        function createChart4() {
+            var app = echarts.init(document.getElementById("chart4"));
+            var data = [
+                [1, 4862.4],
+                [2, 5294.7],
+                [3, 5934.5],
+                [4, 7171.0],
+                [5, 8964.4],
+                [6, 10202.2],
+                [7, 11962.5],
+                [8, 14928.3],
+                [9, 16909.2],
+                [10, 18547.9],
+                [11, 21617.8],
+                [12, 26638.1],
+                [13, 34634.4],
+                [14, 46759.4],
+                [15, 58478.1],
+                [16, 67884.6],
+                [17, 74462.6],
+                [18, 79395.7]
+            ];
+
+            // See https://github.com/ecomfe/echarts-stat
+            var myRegression = ecStat.regression('exponential', data);
+
+            myRegression.points.sort(function (a, b) {
+                return a[0] - b[0];
+            });
+
+            option = {
+                title: {
+                    text: '1981 - 1998 gross domestic product GDP (trillion yuan)',
+                    subtext: 'By ecStat.regression',
+                    sublink: 'https://github.com/ecomfe/echarts-stat',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross'
+                    }
+                },
+                xAxis: {
+                    type: 'value',
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed'
+                        }
+                    },
+                    splitNumber: 20
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'scatter',
+                    type: 'scatter',
+                    label: {
+                        emphasis: {
+                            show: true,
+                            position: 'left',
+                            textStyle: {
+                                color: 'blue',
+                                fontSize: 16
+                            }
+                        }
+                    },
+                    data: data
+                }, {
+                    name: 'line',
+                    type: 'line',
+                    showSymbol: false,
+                    smooth: true,
+                    data: myRegression.points,
+                    markPoint: {
+                        itemStyle: {
+                            normal: {
+                                color: 'transparent'
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'left',
+                                formatter: myRegression.expression,
+                                textStyle: {
+                                    color: '#333',
+                                    fontSize: 14
+                                }
+                            }
+                        },
+                        data: [{
+                            coord: myRegression.points[myRegression.points.length - 1]
+                        }]
+                    }
+                }]
+            };
+
+            app.setOption(option);
+        }
+
+        function createChart5() {
+            var app = echarts.init(document.getElementById("chart5"));
+            var data = [
+                [3.275154, 2.957587],
+                [-3.344465, 2.603513],
+                [0.355083, -3.376585],
+                [1.852435, 3.547351],
+                [-2.078973, 2.552013],
+                [-0.993756, -0.884433],
+                [2.682252, 4.007573],
+                [-3.087776, 2.878713],
+                [-1.565978, -1.256985],
+                [2.441611, 0.444826],
+                [-0.659487, 3.111284],
+                [-0.459601, -2.618005],
+                [2.17768, 2.387793],
+                [-2.920969, 2.917485],
+                [-0.028814, -4.168078],
+                [3.625746, 2.119041],
+                [-3.912363, 1.325108],
+                [-0.551694, -2.814223],
+                [2.855808, 3.483301],
+                [-3.594448, 2.856651],
+                [0.421993, -2.372646],
+                [1.650821, 3.407572],
+                [-2.082902, 3.384412],
+                [-0.718809, -2.492514],
+                [4.513623, 3.841029],
+                [-4.822011, 4.607049],
+                [-0.656297, -1.449872],
+                [1.919901, 4.439368],
+                [-3.287749, 3.918836],
+                [-1.576936, -2.977622],
+                [3.598143, 1.97597],
+                [-3.977329, 4.900932],
+                [-1.79108, -2.184517],
+                [3.914654, 3.559303],
+                [-1.910108, 4.166946],
+                [-1.226597, -3.317889],
+                [1.148946, 3.345138],
+                [-2.113864, 3.548172],
+                [0.845762, -3.589788],
+                [2.629062, 3.535831],
+                [-1.640717, 2.990517],
+                [-1.881012, -2.485405],
+                [4.606999, 3.510312],
+                [-4.366462, 4.023316],
+                [0.765015, -3.00127],
+                [3.121904, 2.173988],
+                [-4.025139, 4.65231],
+                [-0.559558, -3.840539],
+                [4.376754, 4.863579],
+                [-1.874308, 4.032237],
+                [-0.089337, -3.026809],
+                [3.997787, 2.518662],
+                [-3.082978, 2.884822],
+                [0.845235, -3.454465],
+                [1.327224, 3.358778],
+                [-2.889949, 3.596178],
+                [-0.966018, -2.839827],
+                [2.960769, 3.079555],
+                [-3.275518, 1.577068],
+                [0.639276, -3.41284]
+            ];
+
+            var clusterNumber = 6;
+            // See https://github.com/ecomfe/echarts-stat
+            var step = ecStat.clustering.hierarchicalKMeans(data, clusterNumber, true);
+            var result;
+
+            option = {
+                timeline: {
+                    top: 'center',
+                    right: 35,
+                    height: 300,
+                    width: 10,
+                    inverse: true,
+                    playInterval: 2500,
+                    symbol: 'none',
+                    orient: 'vertical',
+                    axisType: 'category',
+                    autoPlay: true,
+                    label: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: []
+                },
+                baseOption: {
+                    title: {
+                        text: 'Process of Clustering',
+                        subtext: 'By ecStat.hierarchicalKMeans',
+                        sublink: 'https://github.com/ecomfe/echarts-stat',
+                        left: 'center'
+                    },
+                    xAxis: {
+                        type: 'value'
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        type: 'scatter'
+                    }]
+                },
+                options: []
+            };
+
+            for (var i = 0; !(result = step.next()).isEnd; i++) {
+
+                option.options.push(getOption(result, clusterNumber));
+                option.timeline.data.push(i + '');
+
+            }
+
+            function getOption(result, k) {
+                var clusterAssment = result.clusterAssment;
+                var centroids = result.centroids;
+                var ptsInCluster = result.pointsInCluster;
+                var color = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'];
+                var series = [];
+                for (i = 0; i < k; i++) {
+                    series.push({
+                        name: 'scatter' + i,
+                        type: 'scatter',
+                        animation: false,
+                        data: ptsInCluster[i],
+                        markPoint: {
+                            symbolSize: 29,
+                            label: {
+                                normal: {
+                                    show: false
+                                },
+                                emphasis: {
+                                    show: true,
+                                    position: 'top',
+                                    formatter: function (params) {
+                                        return Math.round(params.data.coord[0] * 100) / 100 + '  ' +
+                                            Math.round(params.data.coord[1] * 100) / 100 + ' ';
+                                    },
+                                    textStyle: {
+                                        color: '#000'
+                                    }
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    opacity: 0.7
+                                }
+                            },
+                            data: [{
+                                coord: centroids[i]
+                            }]
+                        }
+                    });
+                }
+
+                return {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross'
+                        }
+                    },
+                    series: series,
+                    color: color
+                };
+            }
+            app.setOption(option);
+        }
+    });
+</script>

@@ -1,0 +1,130 @@
+﻿<div style="width: 100%;">
+    <div id="toolbar" class="mini-toolbar" style="border-bottom: 0; padding: 0px;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 100%;">
+                    <a id="btnSave" class="mini-button" iconcls="icon-save" onclick="saveData();" plain="true">保存</a>
+                    <span class="separator"></span>
+                    <a class="mini-button" iconcls="icon-collapse" onclick="collapseAll();" plain="true">全部折叠</a>
+                    <input id="groupId" class="mini-hidden" value="@ViewBag.groupId" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="mini-fit">
+    <div id="treegrid" class="mini-treegrid" style="width:100%;height:100%;" showtreeicon="true"
+         url="../../System/SysAuthority/GetOrgListByGroupId?groupId=@ViewBag.groupId" treecolumn="OrgName" idfield="OrgId" parentfield="OrgParentId" iconfield="OrgIconPath"
+         allowresize="false" expandonload="true" contextmenu="#treeMenu" checkrecursive="false" showcheckbox="true" checkontextclick="true"
+         resultastree="false" showtreelines="true" checkedfield="OrgIsCheck">
+        <div property="columns">
+            <div type="indexcolumn"></div>
+            <div name="OrgName" field="OrgName" headeralign="center" width="190" vtype="required;maxLength:150">
+                机构名称
+            </div>
+            <div name="OrgCode" field="OrgCode" headeralign="center" width="90" vtype="maxLength:150">
+                机构编码
+            </div>
+            <div type="comboboxcolumn" name="OrgType" field="OrgType" headeralign="center" width="80" vtype="required" readonly="true">
+                机构类型
+                <input property="editor" class="mini-combobox" style="width: 100%;" data="orgType" idfield="id" textfield="text" />
+            </div>
+            <div name="OrgRemark" field="OrgRemark" headeralign="center" width="200" vtype="maxLength:150">
+                机构备注
+            </div>
+        </div>
+    </div>
+</div>
+<ul id="treeMenu" class="mini-contextmenu" onbeforeopen="onBeforeOpen">
+    <li iconcls="icon-collapse" onclick="collapseNode">折叠节点</li>
+</ul>
+<script type="text/javascript">
+    var iconType = [{ id: "fontawesome", text: "Font Awesome" }, { id: "miniui", text: "MiniUI" }],
+   orgType = [{ id: "hq", text: "总部公司" }, { id: "company", text: "地区公司" }, { id: "factory", text: "分厂" }];
+    mini.parse();
+
+    var treegrid = mini.get("treegrid");
+    new ParentNodeCheck(treegrid);
+
+    function onBeforeOpen(e) {
+        var menu = e.sender;
+
+        var node = treegrid.getSelectedNode();
+        if (!node) {
+            e.cancel = true;
+            return;
+        }
+        if (node && node.text == "Base") {
+            e.cancel = true;
+            //阻止浏览器默认右键菜单
+            e.htmlEvent.preventDefault();
+            return;
+        }
+
+    }
+
+    function collapseNode() {
+        var node = treegrid.getSelectedNode();
+        treegrid.collapseNode(node);
+    }
+
+    function saveData() {
+        var checkValue = treegrid.getValue(true);
+        var groupId = mini.get("groupId").getValue();
+
+        var data = new Array();
+
+        var orgList = checkValue.split(',');
+        for (var i = 0; i < orgList.length; i++) {
+            data.push({ GroupId: groupId, OrgId: orgList[i] })
+        }
+
+        treegrid.loading("保存中，请稍后......");
+
+        mini.get("btnSave").set({ enabled: false });
+
+        $.ajax({
+            url: "../../System/SysAuthority/SaveGroupOrgChanges",
+            data: { addData: mini.encode(data) },
+            type: "post",
+            success: function (text, flag, res) {
+                treegrid.unmask();
+                var msg = mini.decode(arguments[2].responseText);
+                if (msg.isSuccess) {
+                    mini.showTips({
+                        content: "<b>成功</b> <br/>保存成功！",
+                        state: "success",
+                        x: "center",
+                        y: "center",
+                        timeout: 2000
+                    });
+                    treegrid.reload();
+                } else {
+                    mini.showMessageBox({
+                        title: "保存失败",
+                        iconCls: "mini-messagebox-warning",
+                        buttons: ["ok"],
+                        message: "失败原因：<br/>" + msg.DisplayErrorMsg + "其余保存成功！",
+                        callback: function (action) { }
+                    });
+                }
+                mini.get("btnSave").set({ enabled: true });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                treegrid.unmask();
+                mini.showTips({
+                    content: "<b>失败</b> <br/>保存失败！",
+                    state: "danger",
+                    x: "center",
+                    y: "center",
+                    timeout: 2000
+                });
+                mini.get("btnSave").set({ enabled: true });
+            }
+        });
+    }
+
+    function collapseAll() {
+        treegrid.collapseAll();
+    }
+</script>

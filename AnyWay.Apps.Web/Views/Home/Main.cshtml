@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>信息管理系统</title>
+    <link type="favicon" rel="shortcut icon" href="~/favicon.ico" />
+    <link href="~/Content/miniui/themes/default/miniui.css" rel="stylesheet" />
+    <link href="~/Content/miniui/themes/pure/skin.css" rel="stylesheet" />
+    <link href="~/Content/miniui/themes/icons.css" rel="stylesheet" />
+    <link href="~/Content/fonts/iconfont.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/css/base.css" rel="stylesheet">
+    <link href="~/Content/css/platform.css" rel="stylesheet">
+    <link href="~/Content/css/layout.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div id="pf-hd">
+            <div class="pf-logo">
+                @*<img src="/Content/images/main/main_logo.png" alt="logo">*@
+                <div style="float: left;color:#fff;width:50px;margin-top:3px"><i class="fa fa-map-signs fa-2x"></i></div>
+                <div style="float: left;height: 30px;width: 1px;background-color:#fff; margin-top: 19px;"></div>
+                <div style="float: left;font-size: 23px;height: 30px;color:#fff;margin-top:-2px;margin-left:20px">信息管理系统</div>
+            </div>
+            <div class="pf-nav-wrap">
+                <div class="pf-nav-ww">
+                    <ul class="pf-nav"></ul>
+                </div>
+                <a href="javascript:;" class="pf-nav-prev disabled"><i class="iconfont icon-xiangxia"></i></a>
+                <a href="javascript:;" class="pf-nav-next"><i class="iconfont icon-xiangshang"></i></a>
+            </div>
+            <div class="pf-user">
+                <span id="msgts" class="msgts">0</span>
+                <div class="pf-user-photo">
+                    <img src="~/Content/images/main/user.png" alt="">
+                </div>
+                <h4 class="pf-user-name ellipsis">@ViewBag.UserName</h4>
+                <i class="iconfont icon-xiangxia"></i>
+
+                <div class="pf-user-panel">
+                    <ul class="pf-user-opt">
+                        <li class="pf-modify-info">
+                            <a href="javascript:;">
+                                <i class="iconfont icon-yonghu"></i>
+                                <span class="pf-opt-name">用户信息</span>
+                            </a>
+                        </li>
+                        <li class="pf-show-msg">
+                            <a href="javascript:;">
+                                <i class="iconfont icon-shoujianxiang"></i>
+                                <span class="pf-opt-name">消息<i class="mailtext">[10]</i></span>
+                            </a>
+                        </li>
+                        <li class="pf-modify-pwd">
+                            <a href="javascript:;">
+                                <i class="iconfont icon-mima"></i>
+                                <span class="pf-opt-name">修改密码</span>
+                            </a>
+                        </li>
+                        <li class="pf-logout">
+                            <a href="javascript:;">
+                                <i class="iconfont icon-tuichu"></i>
+                                <span class="pf-opt-name">退出</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div id="pf-bd">
+            <div class="pf-sider-wrap">
+            </div>
+            <div id="pf-page">
+                <div class="mini-fit">
+                    <div id="main_tabs" class="mini-tabs" style="width:100%;height:100%" contextmenu="#tabsMenu">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="pf-ft">
+            <div class="system-name">
+                <i class="fa fa-map-signs"></i>
+                <span>信息管理系统&nbsp;v1.0</span>
+            </div>
+            <div class="copyright-name">
+                <span>CopyRight&nbsp;2017&nbsp;&nbsp;&nbsp;有志者事静诚&nbsp;&nbsp;&nbsp;版权所有</span>
+                <i class="fa fa-copyright"></i>
+            </div>
+        </div>
+    </div>
+
+    <ul id="tabsMenu" class="mini-contextmenu">
+        <li id="close_current" iconcls="fa-remove" style="color:#0c94d4">关闭标签页</li>
+        <li id="close_all" iconcls="fa-window-close" style="color:#0c94d4">关闭所有标签页</li>
+        <li id="close_other" iconcls="fa-window-close-o" style="color:#0c94d4">关闭其他[首页除外]</li>
+    </ul>
+
+    <div class="init-loading">
+        <div class="mini-mask mini-fixed">
+            <div class="mini-mask-background"></div>
+            <div id="loading_msg" class="mini-mask-msg mini-mask-loading" style="display:block;margin-left:-62.5px;margin-top:-18px;z-index:1000">正在初始化菜单和首页...</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="~/Scripts/miniui/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/miniui/miniui.js"></script>
+    <script type="text/javascript" src="~/Scripts/miniui/menu.js"></script>
+    <script type="text/javascript" src="~/Scripts/miniui/main.js"></script>
+    <!--[if IE 7]>
+      <script type="text/javascript">
+        $(window).resize(function(){
+          $('#pf-bd').height($(window).height()-76);
+        }).resize();
+
+      </script>
+    <![endif]-->
+</body>
+</html>

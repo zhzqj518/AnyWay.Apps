@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SysMenuAction"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="SysMenuAction" type="Models.System.SysMenuAction" />
+    <typeAlias alias="SysMenuActionLink" type="Models.System.SysMenuActionLink" />
+    <typeAlias alias="SysMenuActionQuery" type="Models.System.ViewModel.SysMenuActionQuery"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="FullResultMap" class="SysMenuAction">
+      <result property="ActionId" column="ACTIONID" dbType="VarChar"/>
+      <result property="MenuId" column="MENUID" dbType="VarChar"/>
+      <result property="ActionName" column="ACTIONNAME" dbType="VarChar"/>
+      <result property="ActionBtnId" column="ACTIONBTNID" dbType="VarChar"/>
+      <result property="ActionIsValid" column="ACTIONISVALID" dbType="Decimal"/>
+      <result property="ActionCreateBy" column="ACTIONCREATEBY" dbType="VarChar"/>
+      <result property="ActionCreateTime" column="ACTIONCREATETIME" dbType="DateTime"/>
+      <result property="ActionUpdateBy" column="ACTIONUPDATEBY" dbType="VarChar"/>
+      <result property="ActionUpdateTime" column="ACTIONUPDATETIME" dbType="DateTime"/>
+    </resultMap>
+    <resultMap id="SysMenuActionLinkMap" class="SysMenuActionLink">
+      <result property="ActionId" column="ACTIONID" dbType="VarChar"/>
+      <result property="MenuId" column="MENUID" dbType="VarChar"/>
+      <result property="ActionName" column="ACTIONNAME" dbType="VarChar"/>
+      <result property="ActionBtnId" column="ACTIONBTNID" dbType="VarChar"/>
+      <result property="ActionIsValid" column="ACTIONISVALID" dbType="Decimal"/>
+      <result property="ActionCreateBy" column="ACTIONCREATEBY" dbType="VarChar"/>
+      <result property="ActionCreateTime" column="ACTIONCREATETIME" dbType="DateTime"/>
+      <result property="ActionUpdateBy" column="ACTIONUPDATEBY" dbType="VarChar"/>
+      <result property="ActionUpdateTime" column="ACTIONUPDATETIME" dbType="DateTime"/>
+      <result property="MenuLink" column="MENULINK" dbType="VarChar"/>
+      <result property="ActionIsCheck" column="ACTIONISCHECK" dbType="Decimal"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="GetMenuRoleActions" resultMap="SysMenuActionLinkMap" parameterClass="SysMenuActionQuery">
+      SELECT T1.*,CASE WHEN T2.ACTIONID IS NULL THEN 0 ELSE 1 END ACTIONISCHECK
+      FROM (SELECT TSMA.*, TSM.MENULINK
+      FROM TB_SYS_MENU_ACTION TSMA
+      LEFT JOIN TB_SYS_MENU TSM ON TSMA.MENUID = TSM.MENUID
+      WHERE TSM.MENUID = #MenuId#
+      OR LOWER(CASE WHEN CHARINDEX('{0,1}', TSM.MENULINK) = 0 THEN TSM.MENULINK ELSE SUBSTRING(TSM.MENULINK, 1, CHARINDEX('{0,1}', TSM.MENULINK) - 1) END) LIKE '%' + #MenuLink#
+      ) T1
+      LEFT JOIN (SELECT *
+      FROM TB_SYS_GROUP_MENU_ACTION TSGMA
+      WHERE TSGMA.GROUPID IN (SELECT GROUPID
+      FROM TB_SYS_GROUP_USER TSGU
+      WHERE TSGU.USERID = #UserId#)
+      ) T2 ON T1.ACTIONID = T2.ACTIONID
+    </select>
+
+    <select id="GetListCnt" resultClass="System.Int32" parameterClass="SysMenuActionQuery">
+      SELECT COUNT(1)
+      FROM TB_SYS_MENU_ACTION
+      WHERE 1 = 1
+      <dynamic>
+        <isNotEmpty property="MenuId" prepend="And">
+          MENUID = #MenuId#
+        </isNotEmpty>
+        <isNotEmpty property="SortBy"  prepend="Order By">
+          $SortBy$ $SortOrder$
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="GetList" resultMap="FullResultMap" parameterClass="SysMenuActionQuery">
+      SELECT *
+      FROM TB_SYS_MENU_ACTION
+      WHERE 1 = 1
+      <dynamic>
+        <isNotEmpty property="MenuId" prepend="And">
+          MENUID = #MenuId#
+        </isNotEmpty>
+        <isNotEmpty property="SortBy"  prepend="Order By">
+          $SortBy$ $SortOrder$
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="GetById" resultMap="FullResultMap" parameterClass="SysMenuAction">
+      SELECT *
+      FROM TB_SYS_MENU_ACTION
+      WHERE (ACTIONID = #ActionId#)
+    </select>
+
+    <insert id="Insert" parameterClass="SysMenuAction">
+      INSERT INTO TB_SYS_MENU_ACTION (
+      ACTIONID
+      , MENUID
+      , ACTIONNAME
+      , ACTIONBTNID
+      , ACTIONISVALID
+      , ACTIONCREATEBY
+      , ACTIONCREATETIME
+      , ACTIONUPDATEBY
+      , ACTIONUPDATETIME
+      ) VALUES (
+      #ActionId#
+      , #MenuId#
+      , #ActionName#
+      , #ActionBtnId#
+      , #ActionIsValid#
+      , #ActionCreateBy#
+      , #ActionCreateTime#
+      , #ActionUpdateBy#
+      , #ActionUpdateTime#
+      )
+    </insert>
+
+    <update id="Update" parameterClass="SysMenuAction">
+      UPDATE TB_SYS_MENU_ACTION SET
+      ACTIONID = #ActionId#
+      , MENUID = #MenuId#
+      , ACTIONNAME = #ActionName#
+      , ACTIONBTNID = #ActionBtnId#
+      , ACTIONISVALID = #ActionIsValid#
+      , ACTIONCREATEBY = #ActionCreateBy#
+      , ACTIONCREATETIME = #ActionCreateTime#
+      , ACTIONUPDATEBY = #ActionUpdateBy#
+      , ACTIONUPDATETIME = #ActionUpdateTime#
+      WHERE
+      (ACTIONID = #ActionId#)
+    </update>
+
+    <delete id="Delete" parameterClass="SysMenuAction">
+      DELETE FROM TB_SYS_MENU_ACTION
+      WHERE
+      (ACTIONID = #ActionId#)
+    </delete>
+
+    <delete id="DeleteByMenuId" parameterClass="System.String">
+      DELETE FROM TB_SYS_MENU_ACTION
+      WHERE
+      (MENUID = #value#)
+    </delete>
+  </statements>
+</sqlMap>

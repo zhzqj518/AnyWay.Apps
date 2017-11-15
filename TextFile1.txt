@@ -1,0 +1,37 @@
+设计原则
+
+1.配置文件归调用方所有，比如AnyWay.Apps.Web中有调用Unity与MyBatis功能，其配置文件在AnyWay.Apps.Web中配置，不会在AnyWay.Apps.Core与AnyWay.Apps.Persistence中，AnyWay.Apps.Core与AnyWay.Apps.Persistence只是加载方法，不能包含具体配置文件地址。
+
+2.AnyWay.Apps.Core
+	提供最基础功能，不能引用其他工程，记住，是不允许引用任何其他工程，如果发现需要调用其他工程功能，放在调用方进行编写。
+
+3.AnyWay.Apps.Persistence
+	提供数据持久化功能，比如ORM，OMX框架，本项目采用MyBatis进行数据持久化，本工程只允许引用AnyWay.Apps.Core，其他不允许。如果以后想引进其他框架，在工程根目录下新增文件夹，在新增文件夹中新增DataMapper文件与AnyWay.Apps.Core/Persistence/IRespository继承类。AnyWay.Apps.Core/Persistence/IRespository继承类要求支持同种框架的不同数据库同时操作，所以记得采用依赖注入的方式，参考AnyWay.Apps.Persistence/MyBatis/RepositoryMyBatis。
+
+4.AnyWay.Apps.Web
+	提供管理平台功能，不能直接调用数据库，只能通过03.AnyWay.Apps.BizManager中IXXXBizManager进行调用，为方便IoC(Unity)，需要把03.AnyWay.Apps.BizManager和04.AnyWay.Apps.Repository所有项目引用进来，切记！！！！
+
+5.AnyWay.Apps.WebApi
+	提供管理平台对外接口数据功能，不能直接调用数据库，只能通过03.AnyWay.Apps.BizManager中IXXXBizManager进行调用，为方便IoC(Unity)，需要把03.AnyWay.Apps.BizManager和04.AnyWay.Apps.Repository所有项目引用进来，切记！！！！
+
+6.IXXXBizManager
+	提供业务接口功能，供Web和其他调用方使用，定义接口方法，业务差分与数据库拆分升级，不应该受到影响。
+
+7.XXXBizManager
+	提供业务处理功能，继承自IXXXBizManager，由于其中采用了事物机制，所以会依赖AnyWay.Apps.Persistence中的持久化框架，所以一旦在项目中采用了两种数据连接的情况（同种框架两个不同数据库，不同框架的两个不同数据库），多要在AnyWay.Apps.Persistence/Transaction中新增对该数据库数据支持。同种框架只需新增SqlTransactionType枚举和上面获取方法即可，如果新增不同框架，需要继承AnyWay.Apps.Persistence/Transaction/ISqlTransaction进行实现类编写。该类工程不允许直接调用XXXRepository,应该只调用IXXXRepository。不允许在同一个XXXBizManager有对两个数据库的操作（同种框架两个不同数据库，不同框架的两个不同数据库），如果业务需要，新增XXXBizManager，共同及继承自IXXXBizManager。
+8.IXXXRepository
+	为XXXBizManager提供数据的增删改查功能接口，业务差分与数据库拆分升级，不应该受到影响。
+9.XXXRepository
+	提供出数据库增删改查具体实现，不允许在一个XXXRepository工程中有对两个数据库的操作（同种框架两个不同数据库，不同框架的两个不同数据库），如果业务需要，新增XXXRepository，共同继承自IXXXRepository。
+
+10.Model.XXX
+	实体层，不解释
+
+11.MyBatisXXXMapper和RepositoryMyBatis
+	MyBatisXXXMapper
+		此项为数据库连接持久化工具，本框架支持同时连接多个数据库，本着业务隔离的目的，如果一个数据库连接不够，那么可以通过新增AnyWay.Apps.Persistence/MyBatis/MyBatisXXMapper.cs方式新增数据库访问类。
+	RepositoryMyBatis
+		此项为针对MyBatis单个实体进行增删改查操作，避免无谓的代码量，为了支持同种框架的不同数据库同时使用，RepositoryMyBatis类中数据库MyBatisXXMapper通过其继承类（XXXRepository工程中）传入。所以说RepositoryMyBatis只是一个框子，同时提供不同数据库的操作。
+
+特别注意事项：
+	本框架开发时就考虑可插拔性，可扩展性，可升级性，采用接口，依赖注入等技术，支持同时多种数据库同时操作，支持不同数据持久化框架同时工作，支持微服务部署理念，支持分布式部署，支持外部接口数据restful提供，不过没有一个框架可以实现100%解耦和，本框架如果不是非得采用不同的数据持久化框架，可随意拆分，拆分后只要注意引用即可。

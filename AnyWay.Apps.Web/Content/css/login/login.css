@@ -1,0 +1,297 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #f1f1f1;
+}
+
+    body.default {
+        background-color: #fff;
+    }
+
+        body.default .login-hd {
+            background: #fff;
+        }
+
+            body.default .login-hd .logo {
+            }
+
+        body.default .login-bd {
+            background-color: #007cb6;
+        }
+
+            body.default .login-bd .lg-zone {
+            }
+
+
+.login-hd {
+    position: relative;
+    height: 72px;
+    background: #007cb6;
+    line-height: 94px;
+    min-width: 1200px;
+}
+
+    .login-hd .left-bg {
+        position: absolute;
+        width: 348px;
+        height: 92px;
+        left: 0;
+        top: 0;
+        background: url(../../images/login_top_left.png) no-repeat;
+    }
+
+    .login-hd .right-bg {
+        position: absolute;
+        width: 267px;
+        height: 72px;
+        right: 0;
+        top: 0;
+        background: url(../../images/login_top_right.png) no-repeat;
+    }
+
+    .login-hd .hd-inner {
+        width: 1200px;
+        height: 90px;
+        line-height: 90px;
+        margin: 0 auto;
+    }
+
+        .login-hd .hd-inner .logo {
+            float: left;
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 90px;
+            color:#007cb6;
+            /*margin-left: 15px;
+            margin-top: 5px;
+            margin-right: 10px;
+            background: url(../../images/login_logo.png) no-repeat;*/
+        }
+
+        .login-hd .hd-inner .split {
+            float: left;
+            display: inline-block;
+            height: 30px;
+            width: 1px;
+            margin-right: 10px;
+            margin-top: 25px;
+            background-color: #0c94d4;
+        }
+
+body.default .login-hd .hd-inner .split {
+    background-color: #ccc;
+}
+
+.login-hd .hd-inner .sys-name {
+    float: left;
+    display: inline-block;
+    position: relative;
+    color: #000;
+    font-size: 22px;
+    margin-top: -7px;
+}
+
+.login-bd {
+    position: relative;
+    border: 1px solid #e5e5e5;
+    background-color: #fff;
+    min-width: 1200px;
+}
+
+    .login-bd .bd-inner {
+        width: 1200px;
+        margin: 0 auto;
+    }
+
+        .login-bd .bd-inner .inner-wrap {
+            position: relative;
+            padding-right: 504px;
+        }
+
+            .login-bd .bd-inner .inner-wrap .lg-zone {
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                width: 504px;
+            }
+
+                .login-bd .bd-inner .inner-wrap .lg-zone .alert {
+                    margin: 0 33px 10px;
+                }
+
+                .login-bd .bd-inner .inner-wrap .lg-zone .lg-box {
+                    position: absolute;
+                    right: 30px;
+                    top: 46px;
+                    background: #fff;
+                    box-shadow: 2px 2px 3px #ddd, -2px 0 3px #ddd;
+                    width: 364px;
+                    padding-bottom: 20px;
+                }
+
+body.default .login-bd .bd-inner .inner-wrap .lg-zone .lg-box {
+    position: absolute;
+    right: 30px;
+    top: 46px;
+    background: #fff;
+    box-shadow: 0px 0px 0px #ddd, -0px 0 0px #ddd;
+    width: 364px;
+    padding-bottom: 20px;
+}
+
+.login-bd .bd-inner .inner-wrap .lg-zone .lg-box .line {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 6px;
+}
+
+    .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .line.line-y {
+        width: 127px;
+        background: #ff9d02;
+    }
+
+    .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .line.line-g {
+        left: 127px;
+        right: 0;
+        background: #007cb6;
+    }
+
+.login-bd .bd-inner .inner-wrap .lg-zone .lg-box .lg-label {
+    color: #000;
+    font-size: 22px;
+    height: 44px;
+    line-height: 44px;
+    margin-top: 23px;
+    text-indent: 30px;
+    margin-bottom: 20px;
+}
+
+    .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .lg-label h4 {
+        border-left: 4px solid #007cb6;
+    }
+
+body.default .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .lg-label h4 {
+    border-left: 4px solid #ff9d02;
+}
+
+.login-bd .bd-inner .inner-wrap .lg-zone .lg-box .lg-check {
+    margin-bottom: 10px;
+}
+
+    .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .lg-check .check-code {
+        float: left;
+        display: inline-block;
+        height: 42px;
+        line-height: 42px;
+        background-color: #ff9d02;
+        color: #fff;
+        width: 114px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+.login-bd .bd-inner .inner-wrap .lg-zone .lg-box .tips {
+    height: 20px;
+    line-height: 20px;
+    margin-bottom: 30px;
+}
+
+    .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .tips input[type=checkbox] {
+        position: relative;
+        margin-left: 34px;
+    }
+
+    .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .tips label {
+        font-size: 14px;
+        color: #a3a3a3;
+    }
+
+    .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .tips a {
+        margin-left: 80px;
+        /*float: right;*/
+        font-size: 12px;
+        text-decoration: none;
+    }
+
+        .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .tips a:hover {
+            text-decoration: underline;
+        }
+
+        .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .tips a.register {
+            color: #007cb6;
+            margin-left: 12px;
+            margin-right: 34px;
+        }
+
+        .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .tips a.forget-pwd {
+            color: #000;
+        }
+
+.login-bd .bd-inner .inner-wrap .lg-zone .lg-box .enter a {
+    display: inline-block;
+    text-decoration: none;
+    height: 38px;
+    line-height: 36px;
+    text-align: center;
+    color: #fff;
+    font-size: 25px;
+    width: 272px;
+    font-weight: bold;
+}
+
+    .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .enter a i {
+        margin-left: -10px;
+    }
+
+.login-bd .bd-inner .inner-wrap .lg-poster {
+    height: 541px;
+    /*background: url(../../images/code.png) center no-repeat scroll;*/
+}
+
+.login-ft {
+    padding-top: 20px;
+    min-width: 1200px;
+}
+
+    .login-ft .ft-inner {
+        margin: 0 auto;
+    }
+
+        .login-ft .ft-inner .about-us {
+            height: 20px;
+            line-height: 20px;
+            width: 295px;
+            margin: 0 auto;
+            margin-bottom: 10px;
+        }
+
+            .login-ft .ft-inner .about-us a {
+                color: #666;
+                text-decoration: none;
+                font-size: 14px;
+                float: left;
+                margin-left: 15px;
+            }
+
+                .login-ft .ft-inner .about-us a:hover {
+                    text-decoration: underline;
+                }
+
+        .login-ft .ft-inner .address {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .login-ft .ft-inner .other-info {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 50px;
+        }

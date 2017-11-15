@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SysLog"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="SysLog" type="Models.System.SysLog" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="FullResultMap" class="SysLog">
+      <result property="Id" column="ID" dbType="VarChar"/>
+      <result property="Operator" column="OPERATOR" dbType="VarChar"/>
+      <result property="OperatorIP" column="OPERATORIP" dbType="VarChar"/>
+      <result property="Message" column="MESSAGE" dbType="VarChar"/>
+      <result property="Result" column="RESULT" dbType="VarChar"/>
+      <result property="Type" column="TYPE" dbType="VarChar"/>
+      <result property="Module" column="MODULE" dbType="VarChar"/>
+      <result property="CreateTime" column="CREATETIME" dbType="DateTime"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <insert id="Insert" parameterClass="SysLog">
+      INSERT INTO TB_SYS_LOG (
+      Id
+      , Operator
+      , OperatorIP
+      , Message
+      , Result
+      , Type
+      , Module
+      , CreateTime
+      ) VALUES (
+      #Id#
+      , #Operator#
+      , #OperatorIP#
+      , #Message#
+      , #Result#
+      , #Type#
+      , #Module#
+      , #CreateTime#
+      )
+    </insert>
+  </statements>
+</sqlMap>

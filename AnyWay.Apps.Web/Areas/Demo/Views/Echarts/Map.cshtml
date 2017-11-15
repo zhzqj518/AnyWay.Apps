@@ -1,0 +1,181 @@
+﻿@section js{
+    <script src="~/Scripts/echarts/echarts.js"></script>
+    <script src="~/Scripts/echarts/china.js"></script>
+}
+<div id="mapData" style="height: 100%; width: 100%;">
+
+</div>
+<div style="position: absolute; right: 5px; bottom: 0px;height:180px;">
+    <img style="height:180px;" src="~/Content/images/demo/南沙.png" />
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadArea();
+    });
+
+    var allConfigData = new Array();
+
+    var areaConfigData = new Array();
+
+    var areaValueData = new Array();
+
+    function reloadData() {
+        allConfigData = new Array();
+
+        areaConfigData = new Array();
+
+        areaValueData = new Array();
+
+        loadArea();
+    }
+
+    function loadArea() {
+        areaValueData.push({
+            name: "北京",
+            coord: [116.439271, 39.948885],
+            symbol: 'path://M509.553 22.702l152.775 309.555 341.617 49.639-247.194 240.957 58.353 340.24-305.551-160.64L204 963.092l58.358-340.24L15.16 381.896l341.617-49.639z',
+            symbolRotate: 0,
+            itemStyle: { normal: { color: '#FFFF00' } }
+        });
+
+        creatMap("mapData");
+    }
+
+
+    //$(window).resize(function () {
+    //    creatMap("mapData")
+    //});
+
+    function creatMap(id) {
+        var option = {
+            backgroundColor: '#026395',
+            title: {
+                text: '',
+                subtext: '',
+                x: 'center',
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            label: {
+                emphasis: {
+                    show: false,
+                    textStyle: {
+                        color: '#eee',
+                    }
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params, ticket, callback) {
+                    if (params.name == '-') {
+                        return '';
+                    } else {
+                        var res = getTooltipStr(params.name)
+                        callback(ticket, res);
+                        return res;
+                    }
+                }
+            },
+            series: [
+                           {
+                               name: '全国',
+                               type: 'map',
+                               roam: false,
+                               hoverable: false,
+                               mapType: 'china2',
+                               top: 4,
+                               bottom: 0,
+                               left: 5,
+                               right: 5,
+                               label: {
+                                   emphasis: {
+                                       show: false,
+                                       textStyle: {
+                                           color: '#000',
+                                       }
+                                   }
+                               },
+                               itemStyle: {
+                                   normal: {
+                                       areaColor: '#126D9C',
+                                       borderColor: '#3d8baf',
+                                       borderWidth: 1
+                                   },
+                                   emphasis: {
+                                       areaColor: '#126D9C',
+                                       shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                       shadowBlur: 0,
+                                       shadowOffsetX: 0,
+                                       shadowOffsetY: 0,
+                                       opacity: 1
+                                   }
+                               },
+                               data: [
+                                                     { name: '甘肃', selected: true, itemStyle: { emphasis: { areaColor: '#EC9C9D', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '青海', selected: true, itemStyle: { emphasis: { areaColor: '#F8BD6F', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '广西', selected: true, itemStyle: { emphasis: { areaColor: '#B9DD7D', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '贵州', selected: true, itemStyle: { emphasis: { areaColor: '#F8BD6F', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '重庆', selected: true, itemStyle: { emphasis: { areaColor: '#E1C8DD', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '北京', selected: true, itemStyle: { emphasis: { areaColor: '#EA64A1', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '福建', selected: true, itemStyle: { emphasis: { areaColor: '#B9DD7D', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '安徽', selected: true, itemStyle: { emphasis: { areaColor: '#F2C995', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '广东', selected: true, itemStyle: { emphasis: { areaColor: '#F2C995', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '西藏', selected: true, itemStyle: { emphasis: { areaColor: '#E1C8DD', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '新疆', selected: true, itemStyle: { emphasis: { areaColor: '#F2C995', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '海南', selected: true, itemStyle: { emphasis: { areaColor: '#EE9C9E', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '宁夏', selected: true, itemStyle: { emphasis: { areaColor: '#FFFB76', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '陕西', selected: true, itemStyle: { emphasis: { areaColor: '#F2C995', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '山西', selected: true, itemStyle: { emphasis: { areaColor: '#FFFB76', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '湖北', selected: true, itemStyle: { emphasis: { areaColor: '#EC9C9D', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '湖南', selected: true, itemStyle: { emphasis: { areaColor: '#FFFB76', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '四川', selected: true, itemStyle: { emphasis: { areaColor: '#B9DD7D', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '云南', selected: true, itemStyle: { emphasis: { areaColor: '#EC9C9D', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '河北', selected: true, itemStyle: { emphasis: { areaColor: '#EC9C9D', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '河南', selected: true, itemStyle: { emphasis: { areaColor: '#B9DD7D', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '辽宁', selected: true, itemStyle: { emphasis: { areaColor: '#FFFB76', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '山东', selected: true, itemStyle: { emphasis: { areaColor: '#E1C8DD', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '天津', selected: true, itemStyle: { emphasis: { areaColor: '#F2C995', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '江西', selected: true, itemStyle: { emphasis: { areaColor: '#E1C8DD', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '江苏', selected: true, itemStyle: { emphasis: { areaColor: '#F8BD6F', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '上海', selected: true, itemStyle: { emphasis: { areaColor: '#E1C8DD', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '浙江', selected: true, itemStyle: { emphasis: { areaColor: '#F89738', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '吉林', selected: true, itemStyle: { emphasis: { areaColor: '#F2C995', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '内蒙古', selected: true, itemStyle: { emphasis: { areaColor: '#B9DD7D', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '黑龙江', selected: true, itemStyle: { emphasis: { areaColor: '#EC9C9D', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '香港', selected: true, itemStyle: { emphasis: { areaColor: '#EE9C9E', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '澳门', selected: true, itemStyle: { emphasis: { areaColor: '#EE9C9E', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '台湾', selected: true, itemStyle: { emphasis: { areaColor: '#EE9C9E', borderColor: '#D71979', borderWidth: 0.3 } } },
+                                                     { name: '九段线', selected: true, itemStyle: { normal: { borderColor: '#D71979', borderWidth: 2 } } },
+                                                     { name: 'china', selected: true, itemStyle: { emphasis: { areaColor: 'rgba(128, 128, 128, 0)', borderColor: '#D71979', borderWidth: 4 } } }
+                               ],
+                               markPoint: {
+                                   //symbol: 'image:///Content/themes/webscreen/images/webpage/炼厂icon.fw.png',
+                                   symbol: 'path://M896.664893 1.161708 896.664893 388.556783l-168.114882 133.029806 0-133.029806-168.114882 133.029806 0-133.029806-168.114882 133.029806 0-133.029806L130.647549 388.556783l0-387.394051L64.863287 1.162732l0-64.321958 65.784262 0 766.017344 0 65.784262 0 0 64.321958L896.664893 1.162732zM548.740786 253.723911 409.863808 253.723911l0 67.416436 138.876977 0L548.740786 253.723911zM716.125027 253.723911 577.247027 253.723911l0 67.416436 138.876977 0L716.124004 253.723911zM883.508245 253.723911 744.631268 253.723911l0 67.416436 138.876977 0L883.508245 253.723911zM357.236194 409.460882 162.808016 409.460882 213.973326 726.685803 306.070884 726.685803ZM260.022105 741.158423c0 0 117.680213 68.707848 268.252557 0 0 0 150.572344-45.318138 257.288854 36.546358 0 0-136.684032-42.394552-289.084001 36.546358C496.479515 814.252161 383.550513 849.336214 260.022105 741.158423z',
+                                   symbolSize: 14,
+                                   symbolRotate: 180,
+                                   itemStyle: {
+                                       normal: {
+                                           color: '#D71979',
+                                           //shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                           //shadowBlur: 8,
+                                           //shadowOffsetX: 1,
+                                           //shadowOffsetY: 1,
+                                           label: { show: false }
+                                       },
+                                       emphasis: {
+                                           color: '#EE9C9E',
+                                           label: { position: 'null' }
+                                       }
+                                   },
+                                   data: areaValueData
+                               }
+
+                           }
+            ]
+        };
+
+        var myChart = echarts.init(document.getElementById(id));
+        myChart.setOption(option);
+    }
+</script>

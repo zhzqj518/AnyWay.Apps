@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SysGroupOrg"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="SysGroupOrg" type="Models.System.SysGroupOrg" />
+    <typeAlias alias="SysGroupOrgCheck" type="Models.System.SysGroupOrgCheck"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="GroupOrgCheckMap" class="SysGroupOrgCheck">
+      <result property="OrgId" column="ORGID" dbType="VarChar"/>
+      <result property="OrgParentId" column="ORGPARENTID" dbType="VarChar"/>
+      <result property="OrgName" column="ORGNAME" dbType="VarChar"/>
+      <result property="OrgCode" column="ORGCODE" dbType="VarChar"/>
+      <result property="OrgIconPath" column="ORGICONPATH" dbType="VarChar"/>
+      <result property="OrgType" column="ORGTYPE" dbType="VarChar"/>
+      <result property="OrgRemark" column="ORGREMARK" dbType="Decimal"/>
+      <result property="GroupId" column="GROUPID" dbType="VarChar"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <select id="GetOrgListByGroupId" parameterClass="System.String" resultMap="GroupOrgCheckMap">
+      SELECT TSO.ORGID, TSO.ORGPARENTID, TSO.ORGNAME, TSO.ORGCODE, TSO.ORGCODE, TSO.ORGICONPATH
+      , TSO.ORGTYPE, TSO.ORGREMARK, TSGO.GROUPID
+      FROM TB_SYS_ORG TSO
+      LEFT JOIN (SELECT *
+      FROM TB_SYS_GROUP_ORG
+      WHERE GROUPID = #value#
+      ) TSGO ON TSO.ORGID = TSGO.ORGID
+    </select>
+
+    <insert id="Insert" parameterClass="SysGroupOrg">
+      INSERT INTO TB_SYS_GROUP_ORG (
+      GROUPID
+      , ORGID
+      ) VALUES (
+      #GroupId#
+      , #OrgId#
+      )
+    </insert>
+
+    <delete id="DeleteByGroupID" parameterClass="SysGroupOrg">
+      DELETE FROM TB_SYS_GROUP_ORG
+      WHERE
+      (GROUPID = #GroupId#)
+    </delete>
+  </statements>
+</sqlMap>
